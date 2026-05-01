@@ -146,6 +146,9 @@ importers:
       next-themes:
         specifier: ^0.4.6
         version: 0.4.6(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      otools-plugin-sdk:
+        specifier: file:../../xyito/lingyun/MenuGit/vendor/otools-plugin-sdk
+        version: file:../../xyito/lingyun/MenuGit/vendor/otools-plugin-sdk(@tauri-apps/api@2.10.1)(@tauri-apps/plugin-dialog@2.6.0)
       overlayscrollbars:
         specifier: ^2.15.1
         version: 2.15.1
@@ -5524,6 +5527,13 @@ packages:
 
   orderedmap@2.1.1:
     resolution: {integrity: sha512-TvAWxi0nDe1j/rtMcWcIj94+Ffe6n7zhow33h40SKxmsmozs6dz/e+EajymfoFcHd7sxNn8yHM8839uixMOV6g==}
+
+  otools-plugin-sdk@file:../../xyito/lingyun/MenuGit/vendor/otools-plugin-sdk:
+    resolution: {directory: ../../xyito/lingyun/MenuGit/vendor/otools-plugin-sdk, type: directory}
+    engines: {node: '>=18'}
+    peerDependencies:
+      '@tauri-apps/api': ^2.8.0
+      '@tauri-apps/plugin-dialog': ^2.4.0
 
   outvariant@1.4.3:
     resolution: {integrity: sha512-+Sl2UErvtsoajRDKCE5/dBz4DIvHXQQnAxtQTF04OJxY0+DyZXSo5P5Bb7XYWOh81syohlYL24hbDwxedPUJCA==}
@@ -12452,6 +12462,11 @@ snapshots:
       strip-ansi: 7.1.2
 
   orderedmap@2.1.1: {}
+
+  otools-plugin-sdk@file:../../xyito/lingyun/MenuGit/vendor/otools-plugin-sdk(@tauri-apps/api@2.10.1)(@tauri-apps/plugin-dialog@2.6.0):
+    dependencies:
+      '@tauri-apps/api': 2.10.1
+      '@tauri-apps/plugin-dialog': 2.6.0
 
   outvariant@1.4.3: {}
 

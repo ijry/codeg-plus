@@ -1,5 +1,5 @@
 use axum::Json;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
 use crate::app_error::AppCommandError;
 use crate::commands::project_boot as pb_commands;
@@ -21,6 +21,18 @@ pub struct CreateShadcnProjectParams {
     pub preset_code: String,
     pub package_manager: String,
     pub target_dir: String,
+}
+
+#[derive(Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct OpenProjectBootWindowParams {
+    pub source: Option<String>,
+}
+
+#[derive(Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ProjectBootNavigationResult {
+    pub path: String,
 }
 
 #[derive(Deserialize)]
@@ -61,6 +73,15 @@ pub async fn create_shadcn_project(
     )
     .await?;
     Ok(Json(result))
+}
+
+pub async fn open_project_boot_window(
+    Json(params): Json<OpenProjectBootWindowParams>,
+) -> Result<Json<ProjectBootNavigationResult>, AppCommandError> {
+    let _ = params.source;
+    Ok(Json(ProjectBootNavigationResult {
+        path: "/project-boot".to_string(),
+    }))
 }
 
 pub async fn detect_hyperframes_skills() -> Json<Vec<pb_commands::HyperframesSkillAgent>> {

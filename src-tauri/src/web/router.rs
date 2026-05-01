@@ -251,6 +251,10 @@ pub fn build_router(
             "/open_push_window",
             post(handlers::folders::open_push_window),
         )
+        .route(
+            "/open_project_boot_window",
+            post(handlers::project_boot::open_project_boot_window),
+        )
         // ─── Git (pure) ───
         .route("/git_status", post(handlers::git::git_status))
         .route("/git_init", post(handlers::git::git_init))

@@ -21,6 +21,8 @@ pub mod paths;
 pub mod pet_sessions;
 pub mod pet_state_mapper;
 pub mod pets;
+#[path = "../../otools/rust/otools_bridge.rs"]
+pub mod otools_bridge;
 #[cfg(feature = "tauri-runtime")]
 pub mod preferences;
 pub mod process;

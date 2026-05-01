@@ -1,0 +1,12 @@
+{
+  "name": "codeg-otools",
+  "private": true,
+  "version": "0.11.2",
+  "type": "module",
+  "scripts": {
+    "build:web": "node scripts/build-web.mjs",
+    "build:native": "node scripts/build-native.mjs release",
+    "build:native:debug": "node scripts/build-native.mjs debug",
+    "build": "pnpm build:web && pnpm build:native"
+  }
+}

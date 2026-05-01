@@ -32,6 +32,17 @@ const nextConfig: NextConfig = {
     unoptimized: true,
   },
   assetPrefix: isProd ? undefined : `http://${internalHost}:3000`,
+  async webpack(config) {
+    if (process.env.OTOOLS_PLUGIN === "1") {
+      const { createOtoolsAliasMap } = await import("otools-plugin-sdk/aliases")
+      config.resolve ??= {}
+      config.resolve.alias = {
+        ...(config.resolve.alias ?? {}),
+        ...createOtoolsAliasMap(),
+      }
+    }
+    return config
+  },
 }
 
 export default withNextIntl(nextConfig)

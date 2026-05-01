@@ -5,6 +5,7 @@ import { isDesktop } from "@/lib/platform"
 import { useTranslations } from "next-intl"
 import { usePlatform } from "@/hooks/use-platform"
 import { cn } from "@/lib/utils"
+import { isOtoolsPluginRuntime } from "otools-plugin-sdk"
 
 async function getTauriWindow() {
   const { getCurrentWindow } = await import("@tauri-apps/api/window")
@@ -19,13 +20,15 @@ export function WindowControls() {
   const t = useTranslations("Folder.windowControls")
   const { isWindows, isLinux } = usePlatform()
   const showControls = isWindows || isLinux
+  const shouldRenderControls =
+    showControls && isDesktop() && !isOtoolsPluginRuntime()
   const [isMaximized, setIsMaximized] = useState(false)
   const appWindowRef = useRef<Awaited<
     ReturnType<typeof getTauriWindow>
   > | null>(null)
 
   useEffect(() => {
-    if (!showControls || !isDesktop()) return
+    if (!shouldRenderControls) return
 
     let disposed = false
     let unlistenResize: (() => void) | null = null
@@ -71,9 +74,9 @@ export function WindowControls() {
       }
       unlistenResize?.()
     }
-  }, [showControls])
+  }, [shouldRenderControls])
 
-  if (!showControls || !isDesktop()) return null
+  if (!shouldRenderControls) return null
 
   return (
     <div className="flex h-8 items-stretch [-webkit-app-region:no-drag]">

@@ -1,0 +1,19 @@
+{
+  "uuid": "otools-codeg",
+  "packid": "otools-codeg",
+  "displayName": "Codeg",
+  "displayNameCN": "Codeg",
+  "developerName": "feitao",
+  "summary": "Agent code generation workspace for OTools.",
+  "version": "0.11.2",
+  "icon": "logo.svg",
+  "entry": "dist/index.html",
+  "devUrl": "http://127.0.0.1:3000",
+  "openInBrowser": false,
+  "permissions": [],
+  "native": {
+    "enabled": true,
+    "libDir": "lib",
+    "autoReload": true
+  }
+}
