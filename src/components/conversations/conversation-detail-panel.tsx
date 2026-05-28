@@ -80,6 +80,13 @@ import {
   saveModePreference,
 } from "@/lib/selector-prefs-storage"
 import {
+  isSimulationMode,
+  normalizeSimulationOutboundModeId,
+  renderSimulationMessagePanel,
+  shouldPersistAgentModePreference,
+  withSimulationMode,
+} from "@/features/simulation-mode"
+import {
   buildConversationDraftStorageKey,
   buildNewConversationDraftStorageKey,
   clearMessageInputDraft,
@@ -488,6 +495,10 @@ const ConversationTabView = memo(function ConversationTabView({
     () => conn.modes?.available_modes ?? [],
     [conn.modes?.available_modes]
   )
+  const allModes = useMemo(
+    () => withSimulationMode(connectionModes),
+    [connectionModes]
+  )
   const connectionConfigOptions = useMemo(
     () => conn.configOptions ?? [],
     [conn.configOptions]
@@ -497,12 +508,13 @@ const ConversationTabView = memo(function ConversationTabView({
     [conn.availableCommands]
   )
   const selectedModeId = useMemo(() => {
-    if (connectionModes.length === 0) return null
-    if (modeId && connectionModes.some((mode) => mode.id === modeId)) {
+    if (allModes.length === 0) return null
+    if (modeId && allModes.some((mode) => mode.id === modeId)) {
       return modeId
     }
-    return conn.modes?.current_mode_id ?? connectionModes[0]?.id ?? null
-  }, [conn.modes?.current_mode_id, connectionModes, modeId])
+    return conn.modes?.current_mode_id ?? allModes[0]?.id ?? null
+  }, [conn.modes?.current_mode_id, allModes, modeId])
+  const simulationModeEnabled = isSimulationMode(selectedModeId)
 
   useEffect(() => {
     if (connSessionId) {
@@ -845,13 +857,15 @@ const ConversationTabView = memo(function ConversationTabView({
       if (currentTab && !currentTab.isPinned) {
         pinTab(tabId)
       }
+      const effectiveModeId =
+        normalizeSimulationOutboundModeId(selectedModeIdArg)
 
       const persistedId = dbConvIdRef.current
       if (persistedId) {
         // Existing-tab path: row already exists, send immediately with the
         // conversation_id pinned so the backend reuses our row instead of
         // creating a duplicate.
-        lifecycleSend(draft, selectedModeIdArg, {
+        lifecycleSend(draft, effectiveModeId, {
           folderId,
           conversationId: persistedId,
           // The backend echoes this as the broadcast UserMessage's message_id,
@@ -951,7 +965,7 @@ const ConversationTabView = memo(function ConversationTabView({
           // Now that the row exists, kick off the actual prompt with the
           // conversation_id pinned so the backend adopts our row instead of
           // creating a duplicate one.
-          lifecycleSend(draft, selectedModeIdArg, {
+          lifecycleSend(draft, effectiveModeId, {
             folderId: sendFolderId,
             conversationId: newConversationId,
             clientMessageId: optimisticTurn.id,
@@ -1143,12 +1157,17 @@ const ConversationTabView = memo(function ConversationTabView({
     (newModeId: string) => {
       setModeId(newModeId)
       // Persist mode selection to localStorage immediately
-      if (conn.modes) {
-        saveModePreference(selectedAgent, {
-          ...conn.modes,
-          current_mode_id: newModeId,
-        })
+      const availableModesState = conn.modes
+      if (
+        !availableModesState ||
+        !shouldPersistAgentModePreference(newModeId, availableModesState)
+      ) {
+        return
       }
+      saveModePreference(selectedAgent, {
+        ...availableModesState,
+        current_mode_id: newModeId,
+      })
     },
     [conn.modes, selectedAgent]
   )
@@ -1303,6 +1322,16 @@ const ConversationTabView = memo(function ConversationTabView({
       }
     />
   )
+  const messagePanelNode = renderSimulationMessagePanel({
+    selectedModeId,
+    status: connStatus,
+    queueSize: msgQueue.length,
+    pendingPermission: conn.pendingPermission,
+    pendingQuestion: conn.pendingQuestion,
+    onRespondPermission: handleRespondPermission,
+    onAnswerQuestion: handleAnswerQuestion,
+    messageList: messageListNode,
+  })
 
   // Live-feedback bar gating + the "agent never read your note" resend fallback.
   // Enqueue rather than `handleSend`: this fallback fires on a turn-end race
@@ -1337,8 +1366,8 @@ const ConversationTabView = memo(function ConversationTabView({
       agentName={AGENT_LABELS[selectedAgent]}
       error={conn.error}
       claudeApiRetry={conn.claudeApiRetry}
-      pendingPermission={conn.pendingPermission}
-      pendingQuestion={conn.pendingQuestion}
+      pendingPermission={simulationModeEnabled ? null : conn.pendingPermission}
+      pendingQuestion={simulationModeEnabled ? null : conn.pendingQuestion}
       pendingAskQuestion={conn.pendingAskQuestion}
       onFocus={handleFocus}
       onSend={handleSend}
@@ -1346,7 +1375,7 @@ const ConversationTabView = memo(function ConversationTabView({
       onRespondPermission={handleRespondPermission}
       onAnswerQuestion={handleAnswerQuestion}
       onAnswerAskQuestion={handleAnswerAskQuestion}
-      modes={connectionModes}
+      modes={allModes}
       configOptions={connectionConfigOptions}
       modeLoading={modeLoading}
       configOptionsLoading={configOptionsLoading}
@@ -1438,7 +1467,7 @@ const ConversationTabView = memo(function ConversationTabView({
               onFocus={handleFocus}
               onSend={handleSend}
               onCancel={handleCancel}
-              modes={connectionModes}
+              modes={allModes}
               configOptions={connectionConfigOptions}
               modeLoading={modeLoading}
               configOptionsLoading={configOptionsLoading}
@@ -1499,10 +1528,10 @@ const ConversationTabView = memo(function ConversationTabView({
               </button>
             ) : null}
           </div>
-          <div className="min-h-0 flex-1">{messageListNode}</div>
+          <div className="min-h-0 flex-1">{messagePanelNode}</div>
         </div>
       ) : (
-        messageListNode
+        messagePanelNode
       )}
       <FeedbackDialog
         open={feedback.dialogOpen}
