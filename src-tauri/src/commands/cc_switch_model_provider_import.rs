@@ -236,12 +236,20 @@ fn normalize_cc_switch_provider_row(
     };
 
     if let Some(reason) = duplicate_reason_for_candidate(&resolved, existing) {
-        return skip(
-            reason,
-            Some(resolved.api_url.clone()),
-            resolved.model.clone(),
-            &resolved.target_agent_type,
-        );
+        let keep_resolved = matches!(reason, CcSwitchModelProviderSkipReason::DuplicateName);
+        return LoadedCcSwitchProvider {
+            preview: CcSwitchModelProviderPreviewItem {
+                source_id,
+                source_app_type: row.app_type.clone(),
+                target_agent_type: resolved.target_agent_type.clone(),
+                name,
+                api_url: Some(resolved.api_url.clone()),
+                model: resolved.model.clone(),
+                importable: false,
+                skip_reason: Some(reason),
+            },
+            resolved: keep_resolved.then_some(resolved),
+        };
     }
 
     LoadedCcSwitchProvider {

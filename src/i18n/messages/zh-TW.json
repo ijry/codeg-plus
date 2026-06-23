@@ -2566,6 +2566,8 @@
       "sourceMissing": "在預期路徑下找不到 cc-switch 資料庫。",
       "empty": "在 cc-switch 中找不到可支援的模型供應商。",
       "summary": "共 {total} 項，可匯入 {importable} 項，略過 {skipped} 項",
+      "overwriteSameName": "覆蓋同名供應商",
+      "overwriteSameNameHint": "啟用後，所選的重名記錄只有在既有記錄與匯入記錄的 agent type 相同時才會原地更新。",
       "selectAll": "選取可匯入項",
       "clearSelection": "清除選取",
       "missingApiUrl": "缺少 API URL",

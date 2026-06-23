@@ -60,10 +60,18 @@ export function CcSwitchModelProviderImporter({
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [summary, setSummary] = useState<ImportSummary | null>(null)
+  const [overwriteSameName, setOverwriteSameName] = useState(false)
 
-  const importableIds = useMemo(
-    () => items.filter((item) => item.importable).map((item) => item.sourceId),
-    [items]
+  const selectableIds = useMemo(
+    () =>
+      items
+        .filter(
+          (item) =>
+            item.importable ||
+            (overwriteSameName && item.skipReason === "duplicate_name")
+        )
+        .map((item) => item.sourceId),
+    [items, overwriteSameName]
   )
 
   const refresh = useCallback(
@@ -85,6 +93,7 @@ export function CcSwitchModelProviderImporter({
               .map((item) => item.sourceId)
           )
         )
+        setOverwriteSameName(false)
       } catch (err) {
         setError(toErrorMessage(err))
       } finally {
@@ -111,8 +120,8 @@ export function CcSwitchModelProviderImporter({
 
   const toggleAll = () => {
     setSelected((prev) => {
-      if (prev.size === importableIds.length) return new Set()
-      return new Set(importableIds)
+      if (prev.size === selectableIds.length) return new Set()
+      return new Set(selectableIds)
     })
   }
 
@@ -122,6 +131,7 @@ export function CcSwitchModelProviderImporter({
     try {
       const result = await importCcSwitchModelProviders({
         sourceIds: Array.from(selected),
+        overwriteSameName,
       })
       setSummary({
         imported: result.importedIds.length,
@@ -135,6 +145,18 @@ export function CcSwitchModelProviderImporter({
       setSubmitting(false)
     }
   }
+
+  useEffect(() => {
+    setSelected((prev) => {
+      const next = new Set(
+        Array.from(prev).filter((sourceId) => selectableIds.includes(sourceId))
+      )
+      if (next.size > 0 || selectableIds.length === 0) {
+        return next
+      }
+      return new Set(selectableIds)
+    })
+  }, [selectableIds])
 
   const selectedCount = selected.size
 
@@ -174,27 +196,46 @@ export function CcSwitchModelProviderImporter({
                 <div className="text-xs text-muted-foreground">
                   {t("summary", {
                     total: items.length,
-                    importable: importableIds.length,
-                    skipped: items.length - importableIds.length,
+                    importable: selectableIds.length,
+                    skipped: items.length - selectableIds.length,
                   })}
                 </div>
-                <Button
-                  type="button"
-                  size="sm"
-                  variant="ghost"
-                  onClick={toggleAll}
-                  disabled={importableIds.length === 0}
-                >
-                  {selectedCount === importableIds.length
-                    ? t("clearSelection")
-                    : t("selectAll")}
-                </Button>
+                <div className="flex items-center gap-4">
+                  <label className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <Checkbox
+                      checked={overwriteSameName}
+                      aria-label={t("overwriteSameName")}
+                      onCheckedChange={(checked) =>
+                        setOverwriteSameName(Boolean(checked))
+                      }
+                    />
+                    <span>{t("overwriteSameName")}</span>
+                  </label>
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="ghost"
+                    onClick={toggleAll}
+                    disabled={selectableIds.length === 0}
+                  >
+                    {selectedCount === selectableIds.length
+                      ? t("clearSelection")
+                      : t("selectAll")}
+                  </Button>
+                </div>
+              </div>
+
+              <div className="text-xs text-muted-foreground">
+                {t("overwriteSameNameHint")}
               </div>
 
               <div className="flex-1 space-y-2 overflow-auto pr-1">
                 {items.map((item) => {
                   const checked = selected.has(item.sourceId)
-                  const disabled = !item.importable || submitting
+                  const selectable =
+                    item.importable ||
+                    (overwriteSameName && item.skipReason === "duplicate_name")
+                  const disabled = !selectable || submitting
                   return (
                     <label
                       key={item.sourceId}

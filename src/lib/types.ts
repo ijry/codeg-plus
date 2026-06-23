@@ -2255,6 +2255,7 @@ export interface ListImportableCcSwitchModelProvidersResult {
 
 export interface ImportCcSwitchModelProvidersRequest {
   sourceIds: string[]
+  overwriteSameName?: boolean
 }
 
 export interface ImportCcSwitchModelProvidersResult {

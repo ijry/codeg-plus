@@ -51,6 +51,8 @@ pub struct ListImportableCcSwitchModelProvidersResult {
 #[serde(rename_all = "camelCase")]
 pub struct ImportCcSwitchModelProvidersRequest {
     pub source_ids: Vec<String>,
+    #[serde(default)]
+    pub overwrite_same_name: bool,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]

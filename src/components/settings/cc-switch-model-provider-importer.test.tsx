@@ -110,11 +110,15 @@ describe("CcSwitchModelProviderImporter", () => {
     expect(await screen.findByText("Codex One")).toBeInTheDocument()
     expect(screen.getByText("Already exists by name")).toBeInTheDocument()
 
+    fireEvent.click(
+      screen.getByRole("checkbox", { name: "Overwrite same-name providers" })
+    )
     fireEvent.click(screen.getByRole("button", { name: "Import selected" }))
 
     await waitFor(() => {
       expect(importCcSwitchModelProviders).toHaveBeenCalledWith({
         sourceIds: ["codex:codex-1"],
+        overwriteSameName: true,
       })
     })
     await waitFor(() => {

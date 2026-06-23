@@ -161,7 +161,13 @@ async fn import_cc_switch_model_providers_from_path_core(
     let mut skipped: Vec<CcSwitchModelProviderPreviewItem> = preview
         .items
         .iter()
-        .filter(|item| wanted.contains(item.source_id.as_str()) && !item.importable)
+        .filter(|item| {
+            wanted.contains(item.source_id.as_str())
+                && !item.importable
+                && !(request.overwrite_same_name
+                    && item.skip_reason
+                        == Some(crate::models::model_provider::CcSwitchModelProviderSkipReason::DuplicateName))
+        })
         .cloned()
         .collect();
 
@@ -185,6 +191,32 @@ async fn import_cc_switch_model_providers_from_path_core(
             &candidate,
             &current_existing,
         ) {
+            if request.overwrite_same_name
+                && reason
+                    == crate::models::model_provider::CcSwitchModelProviderSkipReason::DuplicateName
+            {
+                if let Some(existing) = current_existing
+                    .iter()
+                    .find(|provider| provider.name == candidate.name)
+                {
+                    if existing.agent_type == candidate.target_agent_type {
+                        let updated = update_model_provider_core(
+                            db,
+                            existing.id,
+                            None,
+                            Some(candidate.api_url.clone()),
+                            Some(candidate.api_key.clone()),
+                            None,
+                            Some(candidate.model.clone().unwrap_or_default()),
+                            &EventEmitter::Noop,
+                        )
+                        .await?;
+                        imported_ids.push(updated.id);
+                        continue;
+                    }
+                }
+            }
+
             skipped.push(CcSwitchModelProviderPreviewItem {
                 source_id: candidate.source_id.clone(),
                 source_app_type: candidate.source_app_type.clone(),
@@ -722,6 +754,7 @@ mod tests {
             &db_path,
             ImportCcSwitchModelProvidersRequest {
                 source_ids: vec!["codex:codex-1".to_string()],
+                overwrite_same_name: false,
             },
         )
         .await
@@ -773,6 +806,7 @@ mod tests {
             &db_path,
             ImportCcSwitchModelProvidersRequest {
                 source_ids: vec!["codex:codex-1".to_string(), "gemini:gemini-1".to_string()],
+                overwrite_same_name: false,
             },
         )
         .await
@@ -789,5 +823,107 @@ mod tests {
             .await
             .expect("list imported providers");
         assert_eq!(providers.len(), 1);
+    }
+
+    #[tokio::test]
+    async fn import_cc_switch_model_providers_overwrites_same_name_same_agent_type() {
+        let db = fresh_in_memory_db().await;
+        let existing = create_model_provider_core(
+            &db,
+            "Shared Name".to_string(),
+            "https://old.example.com/v1".to_string(),
+            "sk-old".to_string(),
+            "codex".to_string(),
+            Some("gpt-4.1".to_string()),
+        )
+        .await
+        .expect("create existing provider");
+
+        let cc_switch_dir = seed_cc_switch_db(&[(
+            "codex-1",
+            "codex",
+            "Shared Name",
+            serde_json::json!({
+                "auth": { "OPENAI_API_KEY": "sk-new" },
+                "config": "model = \"gpt-5\"\nbase_url = \"https://new.example.com/v1\"\n"
+            }),
+        )])
+        .await;
+        let db_path = cc_switch_dir.path().join("cc-switch.db");
+
+        let result = import_cc_switch_model_providers_from_path_core(
+            &db,
+            &db_path,
+            ImportCcSwitchModelProvidersRequest {
+                source_ids: vec!["codex:codex-1".to_string()],
+                overwrite_same_name: true,
+            },
+        )
+        .await
+        .expect("overwrite same-name provider");
+
+        assert_eq!(result.imported_ids, vec![existing.id]);
+        assert!(result.skipped.is_empty());
+
+        let providers = list_model_providers_core(&db)
+            .await
+            .expect("list providers after overwrite");
+        assert_eq!(providers.len(), 1);
+        assert_eq!(providers[0].id, existing.id);
+        assert_eq!(providers[0].api_url, "https://new.example.com/v1");
+        assert_eq!(providers[0].api_key, "sk-new");
+        assert_eq!(providers[0].model.as_deref(), Some("gpt-5"));
+    }
+
+    #[tokio::test]
+    async fn import_cc_switch_model_providers_does_not_overwrite_same_name_different_agent_type() {
+        let db = fresh_in_memory_db().await;
+        create_model_provider_core(
+            &db,
+            "Shared Name".to_string(),
+            "https://existing.example.com/v1".to_string(),
+            "sk-existing".to_string(),
+            "gemini".to_string(),
+            Some("gemini-2.5-pro".to_string()),
+        )
+        .await
+        .expect("create existing provider");
+
+        let cc_switch_dir = seed_cc_switch_db(&[(
+            "codex-1",
+            "codex",
+            "Shared Name",
+            serde_json::json!({
+                "auth": { "OPENAI_API_KEY": "sk-new" },
+                "config": "model = \"gpt-5\"\nbase_url = \"https://new.example.com/v1\"\n"
+            }),
+        )])
+        .await;
+        let db_path = cc_switch_dir.path().join("cc-switch.db");
+
+        let result = import_cc_switch_model_providers_from_path_core(
+            &db,
+            &db_path,
+            ImportCcSwitchModelProvidersRequest {
+                source_ids: vec!["codex:codex-1".to_string()],
+                overwrite_same_name: true,
+            },
+        )
+        .await
+        .expect("attempt overwrite with mismatched agent type");
+
+        assert!(result.imported_ids.is_empty());
+        assert_eq!(result.skipped.len(), 1);
+        assert_eq!(
+            result.skipped[0].skip_reason,
+            Some(crate::models::model_provider::CcSwitchModelProviderSkipReason::DuplicateName)
+        );
+
+        let providers = list_model_providers_core(&db)
+            .await
+            .expect("list providers after mismatch skip");
+        assert_eq!(providers.len(), 1);
+        assert_eq!(providers[0].agent_type, "gemini");
+        assert_eq!(providers[0].api_url, "https://existing.example.com/v1");
     }
 }

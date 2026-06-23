@@ -2566,6 +2566,8 @@
       "sourceMissing": "No cc-switch database was found at the expected path.",
       "empty": "No supported model providers were found in cc-switch.",
       "summary": "{total} total, {importable} importable, {skipped} skipped",
+      "overwriteSameName": "Overwrite same-name providers",
+      "overwriteSameNameHint": "When enabled, selected duplicate-name rows will update an existing provider in place only if the existing row has the same agent type.",
       "selectAll": "Select importable",
       "clearSelection": "Clear selection",
       "missingApiUrl": "Missing API URL",
