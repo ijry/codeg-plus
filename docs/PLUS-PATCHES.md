@@ -3,6 +3,8 @@
 PLUS 指本仓库相对上游 [spacering-net/codeg](https://github.com/spacering-net/codeg)
 的全部自有改动。本文档回答两个问题：上游更新了怎么跟进；本地改了什么、为什么存在。
 
+没有这份清单，半年后没人敢动任何一条补丁。
+
 ## 同步机制：merge 流
 
 - `main` = `upstream/main` + 本地 commit（含合并节点），不另设集成分支
@@ -25,20 +27,94 @@ PLUS 指本仓库相对上游 [spacering-net/codeg](https://github.com/spacering
 1. **增量式落位**：自有功能放新文件/新组件，与上游的接线点压缩到一行
    import/注册，不改上游函数内部。
 2. **品牌字段构建期注入**：包名、软件名、图标、identifier、updater 这类高频
-   冲突字段不直接 patch 文件内容，改为构建期注入（待重建
-   `scripts/apply-plus-identity.mjs`；旧实现在 reflog 的 `ce867362f`，约 60
-   天内可 `git cherry-pick ce867362f` 找回）。
+   冲突字段不直接 patch 文件内容，改为构建期注入，见
+   `scripts/apply-plus-identity.mjs` 与下文「PLUS 产品身份」。
 3. **每个本地 commit 登记到下表**：同步冲突时逐条核对"这个差异还要不要"。
 
-## 本地变更清单
+## 补丁台账
 
-| commit | 主题 | 触碰的上游文件 | 说明 |
-| --- | --- | --- | --- |
-| 本次提交 | 上游同步机制 + 本文档 | `.gitignore`、`docs/`、`scripts/` | 基础设施，预期不冲突 |
+| commit | 主题 | 冲突面 | 何时可删 | 说明 |
+| --- | --- | --- | --- | --- |
+| `c937df5f7` | 上游同步机制 + 本文档 | `.gitignore`、`docs/`、`scripts/` | 永不 | 基础设施，预期不冲突 |
+| 本 commit | PLUS 产品身份构建期注入 | 仅新增 `scripts/` 文件 | 永不 —— fork 存在就需要 | 见下文 |
+
+## PLUS 产品身份（release-identity）
+
+**新增** `scripts/apply-plus-identity.mjs` —— 构建期改写产品身份，**不提交字段
+改动本身**：
+
+| 字段 | 上游 | PLUS |
+| --- | --- | --- |
+| `productName` | `codeg` | `Codeg Plus` |
+| `identifier` | `app.codeg` | `net.lingyun.codegplus` |
+| `plugins.updater.endpoints` | 上游 releases | `[]`（关闭） |
+| `plugins.updater.pubkey` | 上游的 minisign 公钥 | `""` |
+| `bundle.createUpdaterArtifacts` | `true` | `false` |
+| `version` | `x.y.z` | 默认不变（见「版本模式」） |
+
+为什么用构建期注入而不是 patch 提交：`version` 上游每次发版都会动，一旦在分支里
+patch 它，每次同步必冲突且 rerere 帮不上（值每次都不同）。注入之后 git 历史里这些
+字段和上游逐位相同 —— 永久冲突面归零。
+
+### 为什么必须换 identifier
+
+Tauri 的 `app_data_dir()` 直接从 `identifier` 推导，换掉它就等于换掉整个数据目录：
+`…/net.lingyun.codegplus/` vs `…/app.codeg/`。
+
+因此 `db/mod.rs` 的 `database_file_name()` 不需要改 —— 两边各自的 `codeg.db` 天然
+隔离。这也顺带避开了 `commands/backup/` 里归档路径硬编码 `db/codeg.db` 而落地名走
+`database_file_name()` 的不对称。
+
+### 为什么必须关掉 updater
+
+不关的话，PLUS 装到用户机器上会自动更新成官方版：plus 功能全丢，且 PLUS 写入的库
+官方版读不了（`backup/core.rs` 的 `evaluate_compat` 会因未知 migration 拒绝）。
+而且我们没有上游的 minisign 私钥，签不出能通过那个 `pubkey` 验证的包。
+
+等有了自有 minisign 密钥对与 release 源，把脚本里的 `PLUS_UPDATER_ENDPOINTS` /
+`PLUS_UPDATER_PUBKEY` 填上即可。
+
+### 版本模式
+
+- **`safe`（默认）**：`tauri.conf.json` 的 `version` 保持纯三段 `x.y.z`。
+  用户看到的 `x.y.z-plus.N` 由 git tag、GitHub release 标题与产物文件名承载；
+  安装后靠 `productName` = `Codeg Plus` 区分。
+- **`semver`**：把 `version` 写成 `x.y.z-plus.N`。
+
+默认走 `safe` 的原因：Windows MSI 的 ProductVersion 不接受 semver 的 prerelease
+段，而上游从未发过任何 prerelease tag（`release.yml` 的 channel 判定只认 `-rc`），
+所以这条流水线上没有先例可依。在 Windows 上实测通过后可把默认切成 `semver`。
+
+### 禁止修改（跨版本互操作契约）
+
+以下三处一旦在 PLUS 侧改动，官方版与 PLUS 之间的备份导入导出就会失效：
+
+- `commands/backup/manifest.rs` 的 `BACKUP_KIND`、`BACKUP_FORMAT_VERSION`
+- 归档内的 `db/codeg.db` 路径（`backup/core.rs` / `restore.rs` 必须一致）
+- `core.rs` 的 `is_excluded_upload()` 里 `.codeg` 前缀判定 —— 改前缀会让 restore
+  的安全快照被打进备份，套娃
+
+### 数据迁移：官方版 → PLUS
+
+manifest 里没有任何 identifier / app 身份字段，兼容门禁只有两条
+（`commands/backup/core.rs` 的 `evaluate_compat`）：
+
+- `format_version > BACKUP_FORMAT_VERSION || kind != BACKUP_KIND` → 拒
+- `!known_migration(&manifest.latest_migration)` → 拒（"备份比本程序新"）
+
+判据是"这个 migration 名我认不认识"，不是版本比大小。于是：
+
+| 方向 | 结果 |
+| --- | --- |
+| 官方 → PLUS | ✅ 通。PLUS 建立在上游之上，migration 是超集 |
+| PLUS → 官方 | ❌ 干净拒绝（"备份比本程序新"），不会写坏数据 |
+
+单向可导，符合数据隔离的预期。
 
 ## 向上游贡献（参考 PR #1062 的路径）
 
-1. `git switch -c feat/xxx upstream/main`——从纯上游起点开分支
+1. `git switch -c feat/xxx upstream/main`——从纯上游起点开分支，绝不能基于 main
+   （否则 PR 会把其他本地补丁一起拖进去）
 2. `git cherry-pick <main 上的本地 commit>`（或按 PR 范围重写）
 3. push 到自己的 fork、向上游发 PR；上游合并后该内容与本地一致，merge 不再
-   冲突，在下表把它标记为"已上游"
+   冲突，在上表把它标记为"已上游"
