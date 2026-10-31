@@ -2,7 +2,11 @@
 
 import { useCallback, useEffect, useRef, useState } from "react"
 import type { PromptDraft } from "@/lib/types"
-import type { MessageQueueChangedPayload, PersistedQueueItem, MessageQueueSaveItem } from "@/lib/types"
+import type {
+  MessageQueueChangedPayload,
+  PersistedQueueItem,
+  MessageQueueSaveItem,
+} from "@/lib/types"
 import { randomUUID } from "@/lib/utils"
 import { messageQueueList, messageQueueSave } from "@/lib/api"
 import { subscribe } from "@/lib/platform"
@@ -110,7 +114,9 @@ function toSaveItem(q: QueuedMessage): MessageQueueSaveItem {
  *    ignores its own echo via the `origin` tag so a concurrent local mutation is
  *    never clobbered by the broadcast it triggered.
  */
-export function useMessageQueue(ownerId?: string | null): UseMessageQueueReturn {
+export function useMessageQueue(
+  ownerId?: string | null
+): UseMessageQueueReturn {
   const [queue, setQueue] = useState<QueuedMessage[]>([])
   const [editingItemId, setEditingItemId] = useState<string | null>(null)
   // Authoritative copy of the queue, updated SYNCHRONOUSLY by every mutation
@@ -123,11 +129,19 @@ export function useMessageQueue(ownerId?: string | null): UseMessageQueueReturn 
   const queueRef = useRef<QueuedMessage[]>(queue)
 
   // Latest owner / client id, read inside async callbacks without re-subscribing.
+  // Synced in effects, not during render: the react-hooks lint bans ref writes
+  // in render. Discrete events flush passive effects first, so a handler can
+  // never observe a stale owner; a broadcast racing that flush window fails its
+  // owner check and is healed by the load effect below.
   const ownerIdRef = useRef<string | null | undefined>(ownerId)
-  ownerIdRef.current = ownerId
+  useEffect(() => {
+    ownerIdRef.current = ownerId
+  }, [ownerId])
   const clientIdRef = useRef<string>(randomUUID())
   const editingItemIdRef = useRef<string | null>(null)
-  editingItemIdRef.current = editingItemId
+  useEffect(() => {
+    editingItemIdRef.current = editingItemId
+  }, [editingItemId])
   // Tracks the previously-bound owner so we can tell "bind" from "switch".
   const prevOwnerRef = useRef<string | null | undefined>(undefined)
 
@@ -161,7 +175,9 @@ export function useMessageQueue(ownerId?: string | null): UseMessageQueueReturn 
     messageQueueList(ownerId)
       .then((items) => {
         if (cancelled) return
-        const parsed = items.map(parseItem).filter((x): x is QueuedMessage => x !== null)
+        const parsed = items
+          .map(parseItem)
+          .filter((x): x is QueuedMessage => x !== null)
         const hadInMemory = queueRef.current.length > 0
         if (prev === null || prev === undefined) {
           // Binding from an unbound tab: keep any parked prompts (they have no
@@ -187,21 +203,24 @@ export function useMessageQueue(ownerId?: string | null): UseMessageQueueReturn 
     if (!ownerId) return
     let unsub: (() => void) | undefined
     let cancelled = false
-    subscribe<MessageQueueChangedPayload>(MESSAGE_QUEUE_CHANGED_EVENT, (payload) => {
-      if (payload.owner_id !== ownerIdRef.current) return
-      if (payload.origin === clientIdRef.current) return
-      const parsed = payload.items
-        .map(parseItem)
-        .filter((x): x is QueuedMessage => x !== null)
-      // If the item being edited vanished on another client, drop edit mode.
-      if (
-        editingItemIdRef.current !== null &&
-        !parsed.some((p) => p.id === editingItemIdRef.current)
-      ) {
-        setEditingItemId(null)
+    subscribe<MessageQueueChangedPayload>(
+      MESSAGE_QUEUE_CHANGED_EVENT,
+      (payload) => {
+        if (payload.owner_id !== ownerIdRef.current) return
+        if (payload.origin === clientIdRef.current) return
+        const parsed = payload.items
+          .map(parseItem)
+          .filter((x): x is QueuedMessage => x !== null)
+        // If the item being edited vanished on another client, drop edit mode.
+        if (
+          editingItemIdRef.current !== null &&
+          !parsed.some((p) => p.id === editingItemIdRef.current)
+        ) {
+          setEditingItemId(null)
+        }
+        commit(parsed)
       }
-      commit(parsed)
-    })
+    )
       .then((u) => {
         if (!cancelled) unsub = u
       })

@@ -1,7 +1,7 @@
 use chrono::Utc;
 use sea_orm::{
-    ActiveModelTrait, ActiveValue::NotSet, ColumnTrait, ConnectionTrait, DatabaseConnection,
-    EntityTrait, IntoActiveModel, QueryFilter, QueryOrder, Set, TransactionTrait,
+    ActiveModelTrait, ActiveValue::NotSet, ColumnTrait, DatabaseConnection, EntityTrait,
+    QueryFilter, QueryOrder, Set, TransactionTrait,
 };
 use serde::Deserialize;
 
