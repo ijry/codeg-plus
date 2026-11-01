@@ -45,12 +45,15 @@ PLUS 指本仓库相对上游 [spacering-net/codeg](https://github.com/spacering
   `-plus.N` 后缀的 tag 会在 CI 直接失败 —— 那意味着产物要带着官方身份出仓库。
   `-plus.N` 传给身份注入脚本；`-plus` 前缀部分必须精确等于 `tauri.conf.json`
   的 `version`（safe 模式下与上游一致）。
-- **产物**：Windows NSIS 安装包 + Linux deb/appimage + server 二进制 +
-  `ghcr.io/ijry/codeg-plus:<version>` 镜像。不产 updater 工件（无 minisign
-  私钥）；不推 Docker Hub（无 secret）。
-- **macOS 暂缓**：矩阵项已注释，需要 APPLE_* 证书（computer-use 信任锚与
-  Developer ID 签名步骤缺 secret 时显式失败）。备好证书后按注释恢复两个
-  矩阵项即可。
+- **产物**：Windows NSIS 安装包 + Linux deb/appimage + macOS app（ad-hoc）+
+  server 二进制 + updater 工件与 `latest.json`（PLUS 私钥签名）+
+  `ghcr.io/ijry/codeg-plus:<version>` 镜像。不推 Docker Hub（无 secret）。
+- **macOS 走 ad-hoc**：无 Developer ID 证书 —— 上游的信任锚编译 / 证书导入 /
+  helper 重签 / hardened-runtime 校验步骤以 `if: false` 门禁（原文保留，有证书
+  后恢复），helper 由 prepare-sidecars 以 `codesign --sign -` 密封并以
+  development 模式运行（`computer/helper/mod.rs` 的 `PEER_REQUIREMENT` 分支，
+  功能可用、无 peer 校验）。server 二进制不发布 macOS 版：未签名二进制每次
+  更新丢 TCC 授权（上游 #1035），macOS 用户走桌面版。
 
 ## PLUS 产品身份（release-identity）
 
@@ -60,10 +63,10 @@ PLUS 指本仓库相对上游 [spacering-net/codeg](https://github.com/spacering
 | 字段 | 上游 | PLUS |
 | --- | --- | --- |
 | `productName` | `codeg` | `Codeg Plus` |
-| `identifier` | `app.codeg` | `net.lingyun.codegplus` |
-| `plugins.updater.endpoints` | 上游 releases | `[]`（关闭） |
-| `plugins.updater.pubkey` | 上游的 minisign 公钥 | `""` |
-| `bundle.createUpdaterArtifacts` | `true` | `false` |
+| `identifier` | `app.codeg` | `net.lingyun.yoyocode` |
+| `plugins.updater.endpoints` | 上游 releases | PLUS releases 的 `latest.json` |
+| `plugins.updater.pubkey` | 上游的 minisign 公钥 | PLUS 自己的 minisign 公钥 |
+| `bundle.createUpdaterArtifacts` | `true` | `true`（用 PLUS 私钥签名） |
 | `version` | `x.y.z` | 默认不变（见「版本模式」） |
 
 为什么用构建期注入而不是 patch 提交：`version` 上游每次发版都会动，一旦在分支里
@@ -73,20 +76,27 @@ patch 它，每次同步必冲突且 rerere 帮不上（值每次都不同）。
 ### 为什么必须换 identifier
 
 Tauri 的 `app_data_dir()` 直接从 `identifier` 推导，换掉它就等于换掉整个数据目录：
-`…/net.lingyun.codegplus/` vs `…/app.codeg/`。
+`…/net.lingyun.yoyocode/` vs `…/app.codeg/`。
 
 因此 `db/mod.rs` 的 `database_file_name()` 不需要改 —— 两边各自的 `codeg.db` 天然
 隔离。这也顺带避开了 `commands/backup/` 里归档路径硬编码 `db/codeg.db` 而落地名走
 `database_file_name()` 的不对称。
 
-### 为什么必须关掉 updater
+### 为什么必须换掉 updater 的源与公钥
 
-不关的话，PLUS 装到用户机器上会自动更新成官方版：plus 功能全丢，且 PLUS 写入的库
+不换的话，PLUS 装到用户机器上会自动更新成官方版：plus 功能全丢，且 PLUS 写入的库
 官方版读不了（`backup/core.rs` 的 `evaluate_compat` 会因未知 migration 拒绝）。
-而且我们没有上游的 minisign 私钥，签不出能通过那个 `pubkey` 验证的包。
+沿用上游公钥也不行 —— 我们没有对应私钥，签不出能通过验证的更新包。
 
-等有了自有 minisign 密钥对与 release 源，把脚本里的 `PLUS_UPDATER_ENDPOINTS` /
-`PLUS_UPDATER_PUBKEY` 填上即可。
+现在源指向 `ijry/codeg-plus` 的 release（`latest.json`），公钥换成 PLUS 自己的
+minisign 密钥对：
+
+- 私钥：`D:\Repos\xyito\config\codeg-plus\codeg-plus.key`（base64 单行，口令为空），
+  同时配在 fork 的 `TAURI_SIGNING_PRIVATE_KEY` / `TAURI_SIGNING_PRIVATE_KEY_PASSWORD`
+  两个 secret 上
+- 8 月的旧密钥已归档为 `codeg-plus.key.legacy-2D14EC03`（公钥从未发布过，直接
+  轮换无损失）
+- 私钥丢失 = updater 报废；换钥必须同步改 `scripts/apply-plus-identity.mjs` 并发新版
 
 ### 版本模式
 

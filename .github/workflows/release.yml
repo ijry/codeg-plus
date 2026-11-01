@@ -176,15 +176,17 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          # macOS 暂缓：仓库尚未配置 APPLE_* 签名 secret，上游的 computer-use
-          # 信任锚与证书导入步骤在缺 secret 时显式失败。备好 Developer ID
-          # 证书后把这两个矩阵项加回来。
-          # - name: "macOS x64"
-          #   runner: "macos-latest"
-          #   target: "x86_64-apple-darwin"
-          # - name: "macOS arm64"
-          #   runner: "macos-latest"
-          #   target: "aarch64-apple-darwin"
+          # macOS 走 ad-hoc 打包（无 Developer ID 证书，参考 ai-switch 的
+          # release）：不设 CODEG_COMPUTER_* / APPLE_* —— helper 以 development
+          # 模式降级运行（见 computer/helper/mod.rs 的 PEER_REQUIREMENT 分支），
+          # 主程序由 tauri bundler 默认 ad-hoc 密封，不做公证。备好 Developer
+          # ID 证书后，恢复下方被门禁的四个签名步骤并走上游流程。
+          - name: "macOS x64"
+            runner: "macos-latest"
+            target: "x86_64-apple-darwin"
+          - name: "macOS arm64"
+            runner: "macos-latest"
+            target: "aarch64-apple-darwin"
           - name: "Linux x64"
             runner: "ubuntu-22.04"
             target: "x86_64-unknown-linux-gnu"
@@ -332,7 +334,10 @@ jobs:
       # without its requirement refuses to start once it is Developer-ID
       # signed, and codeg will not build with one pin and not the other.
       - name: Pin computer-use trust anchors (macOS)
-        if: contains(matrix.target, 'apple-darwin')
+        # PLUS ad-hoc：无证书。不编译信任锚 —— helper 与 codeg 双双走
+        # PEER_REQUIREMENT 为 None 的 development 分支（功能可用，无 peer 校验）。
+        # 有证书后恢复上游条件。
+        if: false
         shell: bash
         env:
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
@@ -391,7 +396,7 @@ jobs:
           esac
 
       - name: Import Apple Developer ID certificate
-        if: contains(matrix.target, 'apple-darwin')
+        if: false # PLUS ad-hoc：无证书（恢复条件见 build-tauri 矩阵注释）
         shell: bash
         env:
           APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
@@ -466,7 +471,7 @@ jobs:
           security find-identity -v -p codesigning "$keychain_path"
 
       - name: Resolve Apple Developer ID identity
-        if: contains(matrix.target, 'apple-darwin')
+        if: false # PLUS ad-hoc：无证书
         shell: bash
         run: |
           set -euo pipefail
@@ -493,7 +498,9 @@ jobs:
       # Apple requires — with the hardened runtime, a secure timestamp and no
       # entitlements, as notarization and the gate below need.
       - name: Sign the computer-use helper app (macOS)
-        if: contains(matrix.target, 'apple-darwin')
+        # PLUS ad-hoc：helper 由 prepare-sidecars 已 ad-hoc 密封（codesign
+        # --sign -），无需 Developer ID 重签。
+        if: false
         shell: bash
         run: |
           set -euo pipefail
@@ -557,11 +564,10 @@ jobs:
           prerelease: ${{ needs.create-draft-release.outputs.prerelease }}
           tauriScript: pnpm tauri
           # Skip MSI bundling on Windows: tauri-apps/tauri#14681 — light.exe
-          # fails when externalBin is configured. NSIS installer covers the
-          # same distribution channel. PLUS：不产 updater 产物 —— 没有 minisign
-          # 私钥，签不出来；createUpdaterArtifacts 已由身份注入脚本关掉。
-          args: --target ${{ matrix.target }} --bundles nsis
-          includeUpdaterJson: false
+          # fails when externalBin is configured. NSIS installer + updater
+          # artifacts cover the same distribution channel.
+          args: --target ${{ matrix.target }} --bundles nsis,updater
+          includeUpdaterJson: true
           retryAttempts: 2
 
       - name: Build and upload to draft release (Linux x64)
@@ -585,9 +591,11 @@ jobs:
           # Every Linux bundle (deb, rpm, AppImage), less the .rpm for a
           # release candidate: see the arm64 step.
           args: --target ${{ matrix.target }}${{ contains(github.ref_name, '-') && ' --bundles deb,appimage' || '' }}
-          includeUpdaterJson: false
+          includeUpdaterJson: true
           retryAttempts: 2
 
+      # PLUS ad-hoc：无 Developer ID —— bundler 默认 ad-hoc 密封主程序与
+      # helper，不做公证（APPLE_ID/PASSWORD/TEAM_ID 为空时 tauri 跳过）。
       - name: Build, sign, and upload to draft release (macOS)
         if: contains(matrix.target, 'apple-darwin')
         uses: tauri-apps/tauri-action@v0.6.1
@@ -650,7 +658,9 @@ jobs:
       #     WebKit): the copies `tauri build` compiles itself stay out
       #     (`server-bin` / `mcp-bin` / `cli-bin`).
       - name: Verify computer-use signing and symbols (macOS)
-        if: contains(matrix.target, 'apple-darwin')
+        # PLUS ad-hoc：hardened-runtime 与信任锚互检都依赖 Developer ID，
+        # 由下方 ad-hoc 版校验步骤替代（保留结构/符号级检查）。
+        if: false
         shell: bash
         run: |
           set -euo pipefail
@@ -707,6 +717,60 @@ jobs:
           done
           echo "computer-use signing and symbol checks passed"
 
+      # PLUS ad-hoc 版校验：保留与签名体制无关的结构与符号检查
+      # （helper 位置、server 不进桌面包、sidecar 不链 WebKit、无 entitlements、
+      # 敏感 API 符号封锁），跳过 hardened-runtime 与信任锚互检。
+      - name: Verify macOS bundle (ad-hoc)
+        if: contains(matrix.target, 'apple-darwin')
+        shell: bash
+        run: |
+          set -euo pipefail
+          app="src-tauri/target/${{ matrix.target }}/release/bundle/macos/codeg.app"
+          if [ ! -d "$app" ]; then
+            echo "FATAL: $app not found"
+            exit 1
+          fi
+          codesign --verify --strict --deep "$app"
+          helper_app="$app/Contents/Helpers/codeg-computer-helper.app"
+          if [ -e "$app/Contents/MacOS/codeg-computer-helper" ]; then
+            echo "FATAL: helper must not sit in Contents/MacOS"
+            exit 1
+          fi
+          if [ ! -d "$helper_app" ]; then
+            echo "FATAL: $helper_app not found"
+            exit 1
+          fi
+          if [ -e "$app/Contents/MacOS/codeg-server" ]; then
+            echo "FATAL: codeg-server must not be in the desktop bundle"
+            exit 1
+          fi
+          for sidecar in codeg-mcp codeg-cli; do
+            if otool -L "$app/Contents/MacOS/$sidecar" | grep -q 'WebKit'; then
+              echo "FATAL: $sidecar links WebKit: tauri build's own copy replaced the sidecar"
+              exit 1
+            fi
+          done
+          for path in "$app/Contents/MacOS/codeg" "$app/Contents/MacOS/codeg-mcp" \
+            "$app/Contents/MacOS/codeg-cli" "$helper_app"; do
+            if codesign -d --entitlements - --xml "$path" 2>/dev/null | grep -q '<key>'; then
+              echo "FATAL: $(basename "$path") carries entitlements"
+              exit 1
+            fi
+          done
+          deny='^_(CGEventPost|CGEventPostToPid|CGEventPostToPSN|CGEventTapCreate|CGEventTapCreateForPid|CGEventTapCreateForPSN|CGWindowListCreateImage|CGWindowListCreateImageFromArray|CGDisplayCreateImage|CGDisplayCreateImageForRect|CGDisplayStreamCreate|CGDisplayStreamCreateWithDispatchQueue|CGRequestScreenCaptureAccess|CGRequestPostEventAccess|AXIsProcessTrustedWithOptions|AXUIElement[A-Za-z]*|AXObserver[A-Za-z]*)$|^_OBJC_CLASS_\$_SC(ShareableContent|Stream|ScreenshotManager|ContentFilter|ContentSharingPicker)$'
+          for bin in codeg codeg-mcp codeg-cli; do
+            hits="$(nm -u "$app/Contents/MacOS/$bin" | grep -E "$deny" || true)"
+            if [ "$bin" = codeg ]; then
+              hits="$(printf '%s\n' "$hits" | grep -vx '_CGEventTapCreate' || true)"
+            fi
+            if [ -n "$hits" ]; then
+              echo "FATAL: $bin references APIs only codeg-computer-helper may use:"
+              echo "$hits"
+              exit 1
+            fi
+          done
+          echo "ad-hoc bundle checks passed"
+
       - name: Delete Apple signing keychain
         if: always() && contains(matrix.target, 'apple-darwin')
         shell: bash
@@ -758,7 +822,9 @@ jobs:
             runner: "ubuntu-22.04"
             target: "aarch64-unknown-linux-gnu"
             artifact: "codeg-server-linux-arm64"
-          # macOS 项随 build-tauri 一并暂缓（见其矩阵注释）。
+          # server 不上 macOS：未签名的 server 二进制每次更新都会丢 TCC 授权
+          # （上游 #1035 为此专门做了 Developer ID 签名）。签名证书就绪前，
+          # macOS 用户走桌面版（build-tauri 的 ad-hoc 包）即可。
           - name: "Windows x64"
             runner: "windows-2022"
             target: "x86_64-pc-windows-msvc"

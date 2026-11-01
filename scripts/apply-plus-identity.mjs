@@ -22,21 +22,25 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..")
 const TAURI_CONF = resolve(ROOT, "src-tauri/tauri.conf.json")
 const PKG_JSON = resolve(ROOT, "package.json")
 
-const PLUS_IDENTIFIER = "net.lingyun.codegplus"
+const PLUS_IDENTIFIER = "net.lingyun.yoyocode"
 const PLUS_PRODUCT_NAME = "Codeg Plus"
 
 /**
- * 更新源必须换掉，否则 PLUS 会把自己自动更新成官方版 —— plus 功能全丢，
- * 且 PLUS 写入的库官方版读不了（migration 门禁会拒，见 backup/core.rs 的 evaluate_compat）。
+ * 更新源必须换成 PLUS 自己的 release：否则 PLUS 会把自己自动更新成官方版 ——
+ * plus 功能全丢，且 PLUS 写入的库官方版读不了（migration 门禁会拒，见
+ * backup/core.rs 的 evaluate_compat）。
  *
- * `pubkey` 同理：上游那把是 xintaofei 的 minisign 公钥，我们没有对应私钥，
- * 签不出能通过验证的包。留着它 = 更新永远失败且报一个看不懂的错。
- *
- * 置空 endpoints 等于关掉自动更新（Tauri 在 endpoints 为空时不检查更新）。
- * 等你有了自己的 minisign 密钥对和 release 源，把这两个字段填上即可。
+ * `pubkey` 是 PLUS 自己的 minisign 公钥（私钥在
+ * ~/Repos/xyito/config/codeg-plus/codeg-plus.key，口令为空，同时以
+ * TAURI_SIGNING_PRIVATE_KEY / TAURI_SIGNING_PRIVATE_KEY_PASSWORD 两个 secret
+ * 配在 ijry/codeg-plus）。更新包由 release.yml 用它签名，客户端用这把公钥
+ * 验签 —— 私钥丢了 updater 就废了，换 key 必须同步改这里并重新发版。
  */
-const PLUS_UPDATER_ENDPOINTS = []
-const PLUS_UPDATER_PUBKEY = ""
+const PLUS_UPDATER_ENDPOINTS = [
+  "https://github.com/ijry/codeg-plus/releases/latest/download/latest.json",
+]
+const PLUS_UPDATER_PUBKEY =
+  "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEY5OTQ5NzFCOUM0RjA1NjIKUldSaUJVK2NHNWVVK1RSVnNpK2Q4am0zS1B3cnR1Sy91Mzd4UVl3OTJzTzhlSVM0VElaSk0wL04K"
 
 function parseArgs(argv) {
   const args = { iteration: process.env.PLUS_ITERATION || "1", versionMode: "safe", check: false }
