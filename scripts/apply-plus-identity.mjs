@@ -126,7 +126,7 @@ function main() {
   // `-rc`），所以「带 prerelease 的版本号能不能过 Windows 打包」在这条流水线上没有先例。
   //
   // 用户看到的 `0.27.0-plus.N` 由 git tag、GitHub release 标题和产物文件名承载；
-  // 安装后的应用靠 productName「Codeg Plus」区分，不会和官方版混淆。
+  // 安装后的应用靠 productName「YoYoCode」区分，不会和官方版混淆。
   //
   // 等你在 Windows 上实测过 semver 模式能出包，把默认切成 semver 即可。
   const injectedVersion = args.versionMode === "semver" ? plusVersion : baseVersion
@@ -172,6 +172,12 @@ function main() {
     conf.bundle.createUpdaterArtifacts = false
     console.log("  src-tauri/tauri.conf.json  createUpdaterArtifacts: true -> false（无自有更新源）")
   }
+
+  // macOS ad-hoc 签名：无 Developer ID 证书，signingIdentity 用 "-"（codesign
+  // 的 ad-hoc 身份）。不设的话 bundler 完全不签名，交付的 .app 无签名。
+  // 备好证书后删除此行，走 release.yml 上游的 APPLE_SIGNING_IDENTITY 流程。
+  conf.bundle.macOS = { ...(conf.bundle.macOS || {}), signingIdentity: "-" }
+  console.log("  src-tauri/tauri.conf.json  macOS.signingIdentity: -> \"-\"（ad-hoc）")
 
   writeJson(TAURI_CONF, conf)
   prettierize(TAURI_CONF)

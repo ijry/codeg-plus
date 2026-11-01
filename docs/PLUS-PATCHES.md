@@ -53,8 +53,11 @@ PLUS 指本仓库相对上游 [spacering-net/codeg](https://github.com/spacering
   helper 重签 / hardened-runtime 校验步骤以 `if: false` 门禁（原文保留，有证书
   后恢复），helper 由 prepare-sidecars 以 `codesign --sign -` 密封并以
   development 模式运行（`computer/helper/mod.rs` 的 `PEER_REQUIREMENT` 分支，
-  功能可用、无 peer 校验）。server 二进制不发布 macOS 版：未签名二进制每次
-  更新丢 TCC 授权（上游 #1035），macOS 用户走桌面版。
+  功能可用、无 peer 校验）。主程序靠身份注入设置
+  `bundle.macOS.signingIdentity = "-"` 让 bundler ad-hoc 密封 —— plus.3 实测：
+  不设的话 bundler 完全不签名，`codesign --verify` 直接失败。server 二进制不
+  发布 macOS 版：未签名二进制每次更新丢 TCC 授权（上游 #1035），macOS 用户走
+  桌面版。
 
 ## PLUS 产品身份（release-identity）
 
@@ -68,6 +71,7 @@ PLUS 指本仓库相对上游 [spacering-net/codeg](https://github.com/spacering
 | `plugins.updater.endpoints` | 上游 releases | PLUS releases 的 `latest.json` |
 | `plugins.updater.pubkey` | 上游的 minisign 公钥 | PLUS 自己的 minisign 公钥 |
 | `bundle.createUpdaterArtifacts` | `true` | `true`（用 PLUS 私钥签名） |
+| `bundle.macOS.signingIdentity` | 未设置（上游走 env） | `"-"`（ad-hoc） |
 | `version` | `x.y.z` | 默认不变（见「版本模式」） |
 
 为什么用构建期注入而不是 patch 提交：`version` 上游每次发版都会动，一旦在分支里
