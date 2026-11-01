@@ -80,7 +80,7 @@ jobs:
             const tag = context.ref.replace("refs/tags/", "");
             const { owner, repo } = context.repo;
             const prerelease = process.env.PRERELEASE === "true";
-            const releaseName = `Codeg Plus ${tag}`;
+            const releaseName = `YoYoCode ${tag}`;
             const { data: tagRef } = await github.rest.git.getRef({
               owner,
               repo,
@@ -725,7 +725,9 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          app="src-tauri/target/${{ matrix.target }}/release/bundle/macos/codeg.app"
+          # 主程序名随注入后的 productName 变（YoYoCode.app / YoYoCode 二进制）
+          BIN="$(node -p "require('./src-tauri/tauri.conf.json').productName")"
+          app="src-tauri/target/${{ matrix.target }}/release/bundle/macos/$BIN.app"
           if [ ! -d "$app" ]; then
             echo "FATAL: $app not found"
             exit 1
@@ -750,7 +752,7 @@ jobs:
               exit 1
             fi
           done
-          for path in "$app/Contents/MacOS/codeg" "$app/Contents/MacOS/codeg-mcp" \
+          for path in "$app/Contents/MacOS/$BIN" "$app/Contents/MacOS/codeg-mcp" \
             "$app/Contents/MacOS/codeg-cli" "$helper_app"; do
             if codesign -d --entitlements - --xml "$path" 2>/dev/null | grep -q '<key>'; then
               echo "FATAL: $(basename "$path") carries entitlements"
@@ -758,9 +760,9 @@ jobs:
             fi
           done
           deny='^_(CGEventPost|CGEventPostToPid|CGEventPostToPSN|CGEventTapCreate|CGEventTapCreateForPid|CGEventTapCreateForPSN|CGWindowListCreateImage|CGWindowListCreateImageFromArray|CGDisplayCreateImage|CGDisplayCreateImageForRect|CGDisplayStreamCreate|CGDisplayStreamCreateWithDispatchQueue|CGRequestScreenCaptureAccess|CGRequestPostEventAccess|AXIsProcessTrustedWithOptions|AXUIElement[A-Za-z]*|AXObserver[A-Za-z]*)$|^_OBJC_CLASS_\$_SC(ShareableContent|Stream|ScreenshotManager|ContentFilter|ContentSharingPicker)$'
-          for bin in codeg codeg-mcp codeg-cli; do
+          for bin in "$BIN" codeg-mcp codeg-cli; do
             hits="$(nm -u "$app/Contents/MacOS/$bin" | grep -E "$deny" || true)"
-            if [ "$bin" = codeg ]; then
+            if [ "$bin" = "$BIN" ]; then
               hits="$(printf '%s\n' "$hits" | grep -vx '_CGEventTapCreate' || true)"
             fi
             if [ -n "$hits" ]; then

@@ -38,6 +38,7 @@ PLUS 指本仓库相对上游 [spacering-net/codeg](https://github.com/spacering
 | `c937df5f7` | 上游同步机制 + 本文档 | `.gitignore`、`docs/`、`scripts/` | 永不 | 基础设施，预期不冲突 |
 | （身份注入 commit） | PLUS 产品身份构建期注入 | 仅新增 `scripts/` 文件 | 永不 —— fork 存在就需要 | 见下文 |
 | 本 commit | CI 发布流水线接入身份注入 | `.github/workflows/release.yml`（上游文件，上游改动时需手动合并，低频） | 永不 —— fork 发布就需要 | 见下文「CI 发布」 |
+| （品牌 commit） | 品牌 → YoYoCode：logo / 显示名 / README | `public/icon*.svg`、`src-tauri/icons/`、`src/app/favicon.ico`、`README.md`、`docs/readme/`×9 | 永不 —— fork 品牌就是需要 | 赞助段已删；显示名 YoYoCode，仓库 slug 仍为 `ijry/codeg-plus`（YoYoCode 名下已有同名 Go 项目）；上游动这些文件时需手动合并 |
 
 ### CI 发布
 
@@ -62,7 +63,7 @@ PLUS 指本仓库相对上游 [spacering-net/codeg](https://github.com/spacering
 
 | 字段 | 上游 | PLUS |
 | --- | --- | --- |
-| `productName` | `codeg` | `Codeg Plus` |
+| `productName` | `codeg` | `YoYoCode` |
 | `identifier` | `app.codeg` | `net.lingyun.yoyocode` |
 | `plugins.updater.endpoints` | 上游 releases | PLUS releases 的 `latest.json` |
 | `plugins.updater.pubkey` | 上游的 minisign 公钥 | PLUS 自己的 minisign 公钥 |
@@ -102,7 +103,7 @@ minisign 密钥对：
 
 - **`safe`（默认）**：`tauri.conf.json` 的 `version` 保持纯三段 `x.y.z`。
   用户看到的 `x.y.z-plus.N` 由 git tag、GitHub release 标题与产物文件名承载；
-  安装后靠 `productName` = `Codeg Plus` 区分。
+  安装后靠 `productName` = `YoYoCode` 区分。
 - **`semver`**：把 `version` 写成 `x.y.z-plus.N`。
 
 默认走 `safe` 的原因：Windows MSI 的 ProductVersion 不接受 semver 的 prerelease

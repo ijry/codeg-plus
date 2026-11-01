@@ -23,7 +23,7 @@ const TAURI_CONF = resolve(ROOT, "src-tauri/tauri.conf.json")
 const PKG_JSON = resolve(ROOT, "package.json")
 
 const PLUS_IDENTIFIER = "net.lingyun.yoyocode"
-const PLUS_PRODUCT_NAME = "Codeg Plus"
+const PLUS_PRODUCT_NAME = "YoYoCode"
 
 /**
  * 更新源必须换成 PLUS 自己的 release：否则 PLUS 会把自己自动更新成官方版 ——

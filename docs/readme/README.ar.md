@@ -1,12 +1,12 @@
 <h1 align="center">
-  <a href="https://docs.codeg.app"><img src="../../public/icon.svg" alt="Codeg logo" width="64" align="absmiddle" /></a> Codeg
+  <a href="https://docs.codeg.app"><img src="../../public/icon.svg" alt="YoYoCode logo" width="64" align="absmiddle" /></a> YoYoCode
 </h1>
 
 <p align="center">
-  <a href="https://github.com/spacering-net/codeg"><img src="https://img.shields.io/github/stars/spacering-net/codeg?style=flat&color=e91e63" alt="GitHub stars" /></a>
-  <a href="https://github.com/spacering-net/codeg/releases/latest"><img src="https://img.shields.io/github/v/release/spacering-net/codeg?style=flat&color=e91e63" alt="Latest release" /></a>
-  <a href="https://github.com/spacering-net/codeg/releases"><img src="https://img.shields.io/github/downloads/spacering-net/codeg/total?style=flat&color=e91e63" alt="Total downloads" /></a>
-  <a href="../../LICENSE"><img src="https://img.shields.io/github/license/spacering-net/codeg?style=flat&color=e91e63" alt="License" /></a>
+  <a href="https://github.com/ijry/codeg-plus"><img src="https://img.shields.io/github/stars/ijry/codeg-plus?style=flat&color=e91e63" alt="GitHub stars" /></a>
+  <a href="https://github.com/ijry/codeg-plus/releases/latest"><img src="https://img.shields.io/github/v/release/ijry/codeg-plus?style=flat&color=e91e63" alt="Latest release" /></a>
+  <a href="https://github.com/ijry/codeg-plus/releases"><img src="https://img.shields.io/github/downloads/ijry/codeg-plus/total?style=flat&color=e91e63" alt="Total downloads" /></a>
+  <a href="../../LICENSE"><img src="https://img.shields.io/github/license/ijry/codeg-plus?style=flat&color=e91e63" alt="License" /></a>
   <a href="https://docs.codeg.app"><img src="https://img.shields.io/badge/docs-docs.codeg.app-3451b2?style=flat" alt="Documentation" /></a>
   <a href="https://docs.codeg.app/getting-started/installation"><img src="https://img.shields.io/badge/macOS%20%7C%20Windows%20%7C%20Linux%20%7C%20Docker%20%7C%20iOS%20%7C%20Android-03a9f4?style=flat" alt="Platforms: macOS, Windows, Linux, Docker, iOS, Android" /></a>
 </p>
@@ -20,12 +20,12 @@
   شغّل كل وكلاء البرمجة بالذكاء الاصطناعي في مكان واحد — ودعهم يعملون معًا.
 </p>
 
-<h3 align="center"><a href="https://github.com/spacering-net/codeg/releases/latest"><ins>تنزيل Codeg</ins></a> · <a href="https://docs.codeg.app"><ins>التوثيق</ins></a></h3>
+<h3 align="center"><a href="https://github.com/ijry/codeg-plus/releases/latest"><ins>تنزيل YoYoCode</ins></a> · <a href="https://docs.codeg.app"><ins>التوثيق</ins></a></h3>
 
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="../images/workspace-dark.png" />
-    <img src="../images/workspace-light.png" alt="مساحة عمل Codeg: محادثة مع وكيل بجوار فروقاتها الحيّة وملفات المشروع" width="960" />
+    <img src="../images/workspace-light.png" alt="مساحة عمل YoYoCode: محادثة مع وكيل بجوار فروقاتها الحيّة وملفات المشروع" width="960" />
   </picture>
 </p>
 
@@ -39,59 +39,6 @@
     <td width="50%" valign="top">🌍 <strong>أينما تعمل</strong><br/>تطبيق سطح المكتب، وخادم مستضاف ذاتيًا أو Docker، وiPhone وiPad وAndroid — وكذلك Telegram أو Lark أو WeChat.</td>
   </tr>
 </table>
-
-## 💖 الرعاة
-
-<table>
-  <tr>
-    <td align="center" width="220">
-      <a href="https://www.compshare.cn/?ytag=GPU_YY_git_codeg" target="_blank"><img src="../images/compshare.png" alt="Compshare" width="160" /></a><br/>
-      <strong><a href="https://www.compshare.cn/?ytag=GPU_YY_git_codeg">Compshare (UCloud)</a></strong>
-    </td>
-    <td>شكراً لـ Compshare على رعاية هذا المشروع! Compshare هي منصة الذكاء الاصطناعي السحابية التابعة لشركة UCloud، وتقدّم باقات Plan للوكلاء بنماذج محلية بأسعار اقتصادية شهرياً أو حسب الاستخدام، بدءاً من 49 يوان/شهر. كما توفّر وصولاً مستقراً إلى النماذج الأجنبية عبر وكيل رسمي. تدعم التكامل مع Claude Code وCodex واستدعاءات API. جاهزة للمؤسسات: تزامن عالٍ، ودعم فني على مدار الساعة طوال أيام الأسبوع، وإصدار الفواتير ذاتياً. المستخدمون الذين يسجّلون عبر <a href="https://www.compshare.cn/?ytag=GPU_YY_git_codeg">هذا الرابط</a> يحصلون على رصيد تجريبي مجاني بقيمة 5 يوان على المنصة!</td>
-  </tr>
-  <tr>
-    <td align="center" width="220">
-      <a href="https://hezu.ink/sign-up?aff=0wVz" target="_blank"><img src="../images/hezu-ink.jpg" alt="合租巴士" width="200" /></a><br/>
-      <strong><a href="https://hezu.ink/sign-up?aff=0wVz">合租巴士</a></strong>
-    </td>
-    <td>شكراً لـ 合租巴士 على رعاية هذا المشروع! 合租巴士 هي منصة موثوقة وفعّالة لخدمات ترحيل الذكاء الاصطناعي، توفّر ترحيلاً عالي الاستقرار للنماذج الرئيسية مثل Codex وClaude Code. نسبة الشحن شفافة (1:1)، مع دعم لمعدّل Codex يبدأ من 0.08 فقط. <a href="https://hezu.ink/sign-up?aff=0wVz">انضم إلى المجموعة عبر الموقع الرسمي للحصول على رصيد تجريبي بقيمة 5 دولارات</a>.</td>
-  </tr>
-  <tr>
-    <td align="center" width="220">
-      <a href="https://go.apimart.ai/gh-codeg" target="_blank"><img src="../images/apimart-ai.png" alt="APIMart" width="200" /></a><br/>
-      <strong><a href="https://go.apimart.ai/gh-codeg">APIMart</a></strong>
-    </td>
-    <td>شكراً لـ APIMart على رعاية هذا المشروع! APIMart منصة API منخفضة التكلفة متخصصة في توليد الصور والفيديو بالذكاء الاصطناعي — GPT-Image-2 ابتداءً من 0.006 دولار للصورة، أي أكثر من 160 صورة بالدولار الواحد. واجهة API واحدة غير متزامنة تغطي الصور والفيديو معاً: أرسل المهمة، واحصل على معرّف، ثم استرجع النتائج عبر الاستطلاع أو عبر رد النداء. عالج عشرات الآلاف من الصور دفعةً واحدة دون انتهاء المهلة، وبدّل النماذج دون تغيير الشيفرة. الدفع حسب الاستخدام دون رسوم شهرية — <a href="https://go.apimart.ai/gh-codeg">سجّل من هنا</a> للبدء.</td>
-  </tr>
-  <tr>
-    <td align="center" width="220">
-      <a href="https://www.ucloud.cn/site/active/astraflow?ytag=geo_waituo_codeg" target="_blank"><img src="../images/astraflow.png" alt="UCloud ·星图AstraFlow" width="120" /></a><br/>
-      <strong><a href="https://www.ucloud.cn/site/active/astraflow?ytag=geo_waituo_codeg">UCloud ·星图AstraFlow</a></strong>
-    </td>
-    <td>
-      <a href="https://www.ucloud.cn/site/active/astraflow?ytag=geo_waituo_codeg">UCloud ·星图AstraFlow</a><br/>
-      منصة النماذج الكبيرة AstraFlow من UCloud تتيح استدعاء أكثر من 200 نموذج بنقرة واحدة: تتضمّن نماذج مفتوحة المصدر رائدة عالمياً مثل Kimi K3 وDeepSeek V4/V3 وQwen 3 وGLM5.2 وhappyhorse، دون الحاجة إلى تدريب خاص بك، وجاهزة للاستخدام مباشرة.<br/>
-      سجّل عبر الرابط أعلاه باستخدام <strong>البريد الإلكتروني</strong>، وأكمل التحقق من الهوية، ثم <a href="https://f.howxm.com/xs/u/HVFW5X8EIYV1">احصل على 50 يواناً من رصيد الحوسبة</a>.
-    </td>
-  </tr>
-  <tr>
-    <td align="center" width="220">
-      <a href="https://fluxionai.space/register?source=github&campaign=github-sidrune-codeg&promo=SDRCODEG" target="_blank"><img src="../images/sidrune-ai.png" alt="Sidrune AI" width="200" /></a><br/>
-      <strong><a href="https://fluxionai.space/register?source=github&campaign=github-sidrune-codeg&promo=SDRCODEG">Sidrune AI</a></strong>
-    </td>
-    <td>شكراً لـ Sidrune AI على رعاية هذا المشروع! توفّر Sidrune AI واجهة API واحدة للوصول إلى GPT وClaude وغيرها من نماذج الذكاء الاصطناعي الرئيسية. يحصل المستخدمون الجدد على رصيد API بقيمة 3 دولارات عند التسجيل عبر <a href="https://fluxionai.space/register?source=github&campaign=github-sidrune-codeg&promo=SDRCODEG">رابطنا المخصّص</a> باستخدام الرمز الترويجي <code>SDRCODEG</code>.</td>
-  </tr>
-  <tr>
-    <td align="center" width="220">
-      <a href="https://beeapi.ai/signup?aff=HIAB5JCVRNNA" target="_blank"><img src="../images/beeapi.jpg" alt="BeeAPI" width="200" /></a><br/>
-      <strong><a href="https://beeapi.ai/signup?aff=HIAB5JCVRNNA">BeeAPI</a></strong>
-    </td>
-    <td>شكراً لـ <a href="https://beeapi.ai/signup?aff=HIAB5JCVRNNA">BeeAPI</a> على رعاية هذا المشروع! BeeAPI هي منصة احترافية لتمرير وتجميع واجهات API لنماذج ذكاء اصطناعي متعددة، تجمع العديد من المزوّدين ومجموعة واسعة من نماذج الذكاء الاصطناعي الرائدة. وهي تدعم مقارنة الأسعار بين المزوّدين، والتوجيه الذكي عبر مجموعات متعددة، والوصول الموحّد عبر API مع فوترة موحّدة، مما يساعدك على استخدام خدمات الذكاء الاصطناعي بمرونة واستقرار وتكلفة أقل.</td>
-  </tr>
-</table>
-
-> هل ترغب في أن تصبح راعياً لـ Codeg؟ [راسلنا عبر البريد الإلكتروني.](mailto:itpkcn@gmail.com)
 
 ## ✨ المزايا
 
@@ -237,7 +184,7 @@
 
 ### سطر الأوامر وCI
 
-اربط السكربتات وCI بـ Codeg قيد التشغيل عبر `codeg-cli`، واحصل على الردود أو أحداث JSON.
+اربط السكربتات وCI بـ YoYoCode قيد التشغيل عبر `codeg-cli`، واحصل على الردود أو أحداث JSON.
 
 [التوثيق ←](https://docs.codeg.app/guide/command-line)
 
@@ -269,11 +216,11 @@ git diff | codeg-cli -a codex \
 - **[اجعله على ذوقك](https://docs.codeg.app/reference/settings/appearance)** — اثنتا عشرة سمة يمكنك إعادة تلوينها رمزًا لونيًا تلو الآخر، وخلفيات، واستدارة الزوايا، وعرض المحادثة، وCSS مخصّص، وحيوان أليف على سطح المكتب — بأيٍّ من لغات الواجهة العشر
 - **[النسخ الاحتياطي والمزامنة](https://docs.codeg.app/reference/settings/system#backup-restore)** — نسخ احتياطية مشفّرة، ومزامنة الإعدادات بين الأجهزة عبر ملف أو خادم WebDAV الخاص بك
 - **[مخطط URL](../../docs/url-scheme.md)** — يفتح `codeg://session/<id>` محادثةً من تطبيق آخر (سطح المكتب)
-- **والمزيد** — يضيف كل إصدار تقريبًا شيئًا جديدًا؛ و[ملاحظات الإصدار](https://github.com/spacering-net/codeg/releases) هي القائمة الكاملة
+- **والمزيد** — يضيف كل إصدار تقريبًا شيئًا جديدًا؛ و[ملاحظات الإصدار](https://github.com/ijry/codeg-plus/releases) هي القائمة الكاملة
 
 ## 🤖 الوكلاء المدعومون
 
-يتواصل Codeg مع كل وكيل عبر [Agent Client Protocol](https://agentclientprotocol.com)، فيحصل كلٌّ منهم على الواجهة المنظَّمة نفسها. ويأتي بعشرين وكيلاً مدمجًا، يتولّى تثبيت معظمهم وتثبيت إصداراتهم وتحديثهم نيابةً عنك:
+يتواصل YoYoCode مع كل وكيل عبر [Agent Client Protocol](https://agentclientprotocol.com)، فيحصل كلٌّ منهم على الواجهة المنظَّمة نفسها. ويأتي بعشرين وكيلاً مدمجًا، يتولّى تثبيت معظمهم وتثبيت إصداراتهم وتحديثهم نيابةً عنك:
 
 <p>
   <a href="https://www.anthropic.com/claude-code"><kbd><img src="../images/agents/claude-code.svg" alt="" width="16" valign="middle" /> Claude Code</kbd></a> &nbsp;
@@ -299,30 +246,30 @@ git diff | codeg-cli -a codex \
   <a href="https://docs.codeg.app/guide/custom-agents"><kbd>+ أي وكيل ACP</kbd></a>
 </p>
 
-ليس في القائمة؟ اختر أي وكيل من سجل ACP العام أو الصق ملف distribution JSON الخاص به — فيتولّى Codeg تثبيته، ويتحقق من قدرته على الإقلاع، ويعامله كوكيل مدمج. متطلبات التشغيل، وأين يحفظ كل وكيل جلساته: [الوكلاء المدعومون](https://docs.codeg.app/guide/supported-agents).
+ليس في القائمة؟ اختر أي وكيل من سجل ACP العام أو الصق ملف distribution JSON الخاص به — فيتولّى YoYoCode تثبيته، ويتحقق من قدرته على الإقلاع، ويعامله كوكيل مدمج. متطلبات التشغيل، وأين يحفظ كل وكيل جلساته: [الوكلاء المدعومون](https://docs.codeg.app/guide/supported-agents).
 
 ## 📦 التثبيت
 
-**سطح المكتب** — تجد مثبّتات macOS وWindows وLinux في [Releases](https://github.com/spacering-net/codeg/releases/latest)؛ وخطوات الإعداد في [التثبيت](https://docs.codeg.app/getting-started/installation).
+**سطح المكتب** — تجد مثبّتات macOS وWindows وLinux في [Releases](https://github.com/ijry/codeg-plus/releases/latest)؛ وخطوات الإعداد في [التثبيت](https://docs.codeg.app/getting-started/installation).
 
-**الخادم** — شغّل Codeg بلا واجهة وادخل إليه من أي متصفح. على Linux أو macOS:
+**الخادم** — شغّل YoYoCode بلا واجهة وادخل إليه من أي متصفح. على Linux أو macOS:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/spacering-net/codeg/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/ijry/codeg-plus/main/install.sh | bash
 CODEG_STATIC_DIR=/usr/local/share/codeg/web codeg-server
 ```
 
 على Windows، في PowerShell:
 
 ```powershell
-irm https://raw.githubusercontent.com/spacering-net/codeg/main/install.ps1 | iex
+irm https://raw.githubusercontent.com/ijry/codeg-plus/main/install.ps1 | iex
 $env:CODEG_STATIC_DIR="$env:LOCALAPPDATA\codeg-server\web"; codeg-server
 ```
 
 **Docker** — الخادم نفسه، داخل حاوية واحدة:
 
 ```bash
-docker run -d -p 3080:3080 -v codeg-data:/data ghcr.io/spacering-net/codeg:latest
+docker run -d -p 3080:3080 -v codeg-data:/data ghcr.io/ijry/codeg-plus:latest
 ```
 
 في الحالتين، افتح `http://<host>:3080` في المتصفح وأدخل رمز الوصول الذي يطبعه الخادم عند بدء تشغيله (وفي الحاوية يعرضه `docker logs`)، أو عيّن `CODEG_TOKEN` لتختار رمزك بنفسك.
@@ -340,37 +287,37 @@ docker run -d -p 3080:3080 -v codeg-data:/data ghcr.io/spacering-net/codeg:lates
     <img src="../images/weixin-light.jpg" alt="WeChat" width="200" />
   </picture>
 
-- **المشكلات** — وجدت خللًا أو تفتقد ميزةً ما؟ [افتح مشكلة](https://github.com/spacering-net/codeg/issues).
+- **المشكلات** — وجدت خللًا أو تفتقد ميزةً ما؟ [افتح مشكلة](https://github.com/ijry/codeg-plus/issues).
 - **الخصوصية** — محلي أولاً: يبقى التحليل والتخزين وعمليات المشروع على جهازك، ووضعا الويب والخادم محميّان بمصادقة قائمة على الرموز. التفاصيل في [الخصوصية والأمان](https://docs.codeg.app/reference/privacy).
 - **LinuxDO** — شكراً لمجتمع [LinuxDO](https://linux.do) على دعمه.
-- **أظهر دعمك** — [امنح المستودع نجمة](https://github.com/spacering-net/codeg) لتتابع جديده.
+- **أظهر دعمك** — [امنح المستودع نجمة](https://github.com/ijry/codeg-plus) لتتابع جديده.
 
 ## 🤝 المساهمة
 
-نرحّب بفتح المشكلات وتقديم طلبات السحب. ولبناء Codeg بنفسك، ابدأ بـ [التطوير](https://docs.codeg.app/reference/development) و[البنية](https://docs.codeg.app/reference/architecture).
+نرحّب بفتح المشكلات وتقديم طلبات السحب. ولبناء YoYoCode بنفسك، ابدأ بـ [التطوير](https://docs.codeg.app/reference/development) و[البنية](https://docs.codeg.app/reference/architecture).
 
-<a href="https://github.com/spacering-net/codeg/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=spacering-net/codeg" alt="المساهمون في Codeg" />
+<a href="https://github.com/ijry/codeg-plus/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=ijry/codeg-plus" alt="المساهمون في YoYoCode" />
 </a>
 
 ## ⭐ سجل النجوم
 
-<a href="https://www.star-history.com/?repos=spacering-net%2Fcodeg&type=date&releases=&legend=bottom-right">
+<a href="https://www.star-history.com/?repos=ijry%2Fcodeg-plus&type=date&releases=&legend=bottom-right">
  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=spacering-net/codeg&type=date&theme=dark&legend=bottom-right" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=spacering-net/codeg&type=date&legend=bottom-right" />
-   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=spacering-net/codeg&type=date&legend=bottom-right" />
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=ijry/codeg-plus&type=date&theme=dark&legend=bottom-right" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=ijry/codeg-plus&type=date&legend=bottom-right" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=ijry/codeg-plus&type=date&legend=bottom-right" />
  </picture>
 </a>
 
 ## 🙏 شكر وتقدير
 
-- [Agent Client Protocol](https://agentclientprotocol.com) — الأساس الذي يمكّن Codeg من الاتصال بكل وكيل يدعمه
-- [Superpowers](https://github.com/obra/superpowers) — يُشغِّل وحدة مهارات الخبراء في Codeg
-- [OfficeCLI](https://github.com/iOfficeAI/OfficeCLI) — يُشغِّل سير عمل مستندات Office في Codeg
-- [scientific-agent-skills](https://github.com/K-Dense-AI/scientific-agent-skills) — يُشغِّل مهارات البحث العلمي في Codeg (مجموعة فرعية مرخّصة بموجب MIT)
-- [json-render](https://github.com/vercel-labs/json-render) — يُشغِّل بطاقات «عرض الواجهة» وجداولها ورسومها البيانية في Codeg
-- [cua-driver](https://github.com/trycua/cua) — يُشغِّل «استخدام الحاسوب» في Codeg
+- [Agent Client Protocol](https://agentclientprotocol.com) — الأساس الذي يمكّن YoYoCode من الاتصال بكل وكيل يدعمه
+- [Superpowers](https://github.com/obra/superpowers) — يُشغِّل وحدة مهارات الخبراء في YoYoCode
+- [OfficeCLI](https://github.com/iOfficeAI/OfficeCLI) — يُشغِّل سير عمل مستندات Office في YoYoCode
+- [scientific-agent-skills](https://github.com/K-Dense-AI/scientific-agent-skills) — يُشغِّل مهارات البحث العلمي في YoYoCode (مجموعة فرعية مرخّصة بموجب MIT)
+- [json-render](https://github.com/vercel-labs/json-render) — يُشغِّل بطاقات «عرض الواجهة» وجداولها ورسومها البيانية في YoYoCode
+- [cua-driver](https://github.com/trycua/cua) — يُشغِّل «استخدام الحاسوب» في YoYoCode
 
 ## 📜 الترخيص
 

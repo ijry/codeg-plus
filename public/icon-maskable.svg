@@ -1,36 +1,34 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
   <defs>
-    <!-- 代码符号渐变 -->
-    <linearGradient id="code" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#dcdfe9"/>
-      <stop offset="100%" style="stop-color:#cdd1e2"/>
-    </linearGradient>
-    <!-- 色料三元色 -->
-    <linearGradient id="bubble1" x1="0%" y1="0%" x2="100%" y2="100%">
+    <!-- 盘体：品红 -->
+    <linearGradient id="disc" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" style="stop-color:#ff4081"/>
       <stop offset="100%" style="stop-color:#e91e63"/>
     </linearGradient>
-    <linearGradient id="bubble2" x1="0%" y1="0%" x2="100%" y2="100%">
+    <!-- 绳与指圈：黄 -->
+    <linearGradient id="string" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" style="stop-color:#ffeb3b"/>
       <stop offset="100%" style="stop-color:#fdd835"/>
     </linearGradient>
-    <linearGradient id="bubble3" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#29b6f6"/>
-      <stop offset="100%" style="stop-color:#03a9f4"/>
+    <!-- 轴芯：亮灰 -->
+    <linearGradient id="axle" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#dcdfe9"/>
+      <stop offset="100%" style="stop-color:#cdd1e2"/>
     </linearGradient>
   </defs>
 
-  <!-- 矩形全覆盖背景 (maskable 满幅) -->
+  <!-- maskable：满幅背景，图形收进 80% 安全区 -->
   <rect x="0" y="0" width="512" height="512" fill="#1a1a2e"/>
 
-  <!-- 代码尖括号 < > -->
-  <polyline points="180,186 100,256 180,326"
-    fill="none" stroke="url(#code)" stroke-width="32" stroke-linecap="round" stroke-linejoin="round"/>
-  <polyline points="332,186 412,256 332,326"
-    fill="none" stroke="url(#code)" stroke-width="32" stroke-linecap="round" stroke-linejoin="round"/>
+  <g transform="translate(51.2 51.2) scale(0.8)">
+    <!-- 悠悠球盘体，中缝槽分出两瓣 -->
+    <circle cx="256" cy="232" r="158" fill="url(#disc)"/>
+    <rect x="94" y="220" width="324" height="24" fill="#1a1a2e"/>
+    <rect x="224" y="216" width="64" height="32" rx="10" fill="url(#axle)"/>
 
-  <!-- 中间三个圆点（横排） -->
-  <circle cx="206" cy="256" r="30" fill="url(#bubble1)" opacity="0.95"/>
-  <circle cx="256" cy="256" r="36" fill="url(#bubble2)" opacity="0.95"/>
-  <circle cx="306" cy="256" r="30" fill="url(#bubble3)" opacity="0.95"/>
+    <!-- 绳与指圈 -->
+    <path d="M 410 232 C 448 244 458 290 448 330 C 440 366 416 392 386 402"
+      fill="none" stroke="url(#string)" stroke-width="22" stroke-linecap="round"/>
+    <circle cx="374" cy="428" r="26" fill="none" stroke="url(#string)" stroke-width="22"/>
+  </g>
 </svg>

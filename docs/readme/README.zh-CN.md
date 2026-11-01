@@ -1,12 +1,12 @@
 <h1 align="center">
-  <a href="https://docs.codeg.app"><img src="../../public/icon.svg" alt="Codeg logo" width="64" align="absmiddle" /></a> Codeg
+  <a href="https://docs.codeg.app"><img src="../../public/icon.svg" alt="YoYoCode logo" width="64" align="absmiddle" /></a> YoYoCode
 </h1>
 
 <p align="center">
-  <a href="https://github.com/spacering-net/codeg"><img src="https://img.shields.io/github/stars/spacering-net/codeg?style=flat&color=e91e63" alt="GitHub stars" /></a>
-  <a href="https://github.com/spacering-net/codeg/releases/latest"><img src="https://img.shields.io/github/v/release/spacering-net/codeg?style=flat&color=e91e63" alt="Latest release" /></a>
-  <a href="https://github.com/spacering-net/codeg/releases"><img src="https://img.shields.io/github/downloads/spacering-net/codeg/total?style=flat&color=e91e63" alt="Total downloads" /></a>
-  <a href="../../LICENSE"><img src="https://img.shields.io/github/license/spacering-net/codeg?style=flat&color=e91e63" alt="License" /></a>
+  <a href="https://github.com/ijry/codeg-plus"><img src="https://img.shields.io/github/stars/ijry/codeg-plus?style=flat&color=e91e63" alt="GitHub stars" /></a>
+  <a href="https://github.com/ijry/codeg-plus/releases/latest"><img src="https://img.shields.io/github/v/release/ijry/codeg-plus?style=flat&color=e91e63" alt="Latest release" /></a>
+  <a href="https://github.com/ijry/codeg-plus/releases"><img src="https://img.shields.io/github/downloads/ijry/codeg-plus/total?style=flat&color=e91e63" alt="Total downloads" /></a>
+  <a href="../../LICENSE"><img src="https://img.shields.io/github/license/ijry/codeg-plus?style=flat&color=e91e63" alt="License" /></a>
   <a href="https://docs.codeg.app"><img src="https://img.shields.io/badge/docs-docs.codeg.app-3451b2?style=flat" alt="Documentation" /></a>
   <a href="https://docs.codeg.app/zh/getting-started/installation"><img src="https://img.shields.io/badge/macOS%20%7C%20Windows%20%7C%20Linux%20%7C%20Docker%20%7C%20iOS%20%7C%20Android-03a9f4?style=flat" alt="Platforms: macOS, Windows, Linux, Docker, iOS, Android" /></a>
 </p>
@@ -20,12 +20,12 @@
   把所有 AI 编码智能体收进同一个地方 —— 并让它们协同工作。
 </p>
 
-<h3 align="center"><a href="https://github.com/spacering-net/codeg/releases/latest"><ins>下载 Codeg</ins></a> · <a href="https://docs.codeg.app/zh"><ins>使用文档</ins></a></h3>
+<h3 align="center"><a href="https://github.com/ijry/codeg-plus/releases/latest"><ins>下载 YoYoCode</ins></a> · <a href="https://docs.codeg.app/zh"><ins>使用文档</ins></a></h3>
 
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="../images/workspace-dark.png" />
-    <img src="../images/workspace-light.png" alt="Codeg 工作区：与智能体的对话、实时 diff 与项目文件并排呈现" width="960" />
+    <img src="../images/workspace-light.png" alt="YoYoCode 工作区：与智能体的对话、实时 diff 与项目文件并排呈现" width="960" />
   </picture>
 </p>
 
@@ -39,59 +39,6 @@
     <td width="50%" valign="top">🌍 <strong>随时随地</strong><br/>桌面应用、自托管服务器或 Docker，iPhone、iPad 与 Android——还有 Telegram、飞书和微信。</td>
   </tr>
 </table>
-
-## 💖 赞助
-
-<table>
-  <tr>
-    <td align="center" width="220">
-      <a href="https://www.compshare.cn/?ytag=GPU_YY_git_codeg" target="_blank"><img src="../images/compshare.png" alt="优云智算" width="160" /></a><br/>
-      <strong><a href="https://www.compshare.cn/?ytag=GPU_YY_git_codeg">优云智算</a></strong>
-    </td>
-    <td>感谢优云智算赞助了本项目！优云智算是 UCloud 旗下 AI 云平台，主打包月、按次的高性价比国模 agent Plan 套餐，低至 49 元/月起。同时提供官转稳定海外模型。支持接入 Claude Code、Codex 及 API 调用。支持企业高并发、7*24 技术支持、自助开票。通过<a href="https://www.compshare.cn/?ytag=GPU_YY_git_codeg">此链接</a>注册的用户，可得免费 5 元平台体验金！</td>
-  </tr>
-  <tr>
-    <td align="center" width="220">
-      <a href="https://hezu.ink/sign-up?aff=0wVz" target="_blank"><img src="../images/hezu-ink.jpg" alt="合租巴士" width="200" /></a><br/>
-      <strong><a href="https://hezu.ink/sign-up?aff=0wVz">合租巴士</a></strong>
-    </td>
-    <td>感谢合租巴士对本项目的赞助！合租巴士是一家可靠高效的 AI 中转服务平台，主要提供 Codex、Claude Code 等主流模型的高稳定中转能力，充值比例透明（1:1），Codex 倍率补贴低至 0.08。<a href="https://hezu.ink/sign-up?aff=0wVz">官网进群送 5 刀体验金</a>。</td>
-  </tr>
-  <tr>
-    <td align="center" width="220">
-      <a href="https://go.apimart.ai/gh-codeg" target="_blank"><img src="../images/apimart-ai.png" alt="APIMart" width="200" /></a><br/>
-      <strong><a href="https://go.apimart.ai/gh-codeg">APIMart</a></strong>
-    </td>
-    <td>感谢 APIMart 赞助了本项目！APIMart 是专注 AI 图片/视频生成的低价 API 平台，GPT-Image-2 低至 $0.006/张，1 美元可出图 160+ 张。图片、视频一套异步 API 通吃，提交任务拿 ID、回调取结果，跑批万张不超时、换模型不改代码。按量付费、无月费，通过<a href="https://go.apimart.ai/gh-codeg">此注册链接</a>注册即可开用。</td>
-  </tr>
-  <tr>
-    <td align="center" width="220">
-      <a href="https://www.ucloud.cn/site/active/astraflow?ytag=geo_waituo_codeg" target="_blank"><img src="../images/astraflow.png" alt="星图AstraFlow大模型" width="120" /></a><br/>
-      <strong><a href="https://www.ucloud.cn/site/active/astraflow?ytag=geo_waituo_codeg">UCloud ·星图AstraFlow</a></strong>
-    </td>
-    <td>
-      <a href="https://www.ucloud.cn/site/active/astraflow?ytag=geo_waituo_codeg">UCloud ·星图AstraFlow</a><br/>
-      优刻得星图astraflow大模型，支持200+模型一键调用：内置 Kimi K3、DeepSeek V4/V3、Qwen 3、GLM5.2、happyhorse等全球领先开源大模型，无需自训，开箱即用。<br/>
-      通过上面链接<strong>邮箱</strong>注册并实名后<a href="https://f.howxm.com/xs/u/HVFW5X8EIYV1">领取50元算力金</a>。
-    </td>
-  </tr>
-  <tr>
-    <td align="center" width="220">
-      <a href="https://fluxionai.space/register?source=github&campaign=github-sidrune-codeg&promo=SDRCODEG" target="_blank"><img src="../images/sidrune-ai.png" alt="Sidrune AI" width="200" /></a><br/>
-      <strong><a href="https://fluxionai.space/register?source=github&campaign=github-sidrune-codeg&promo=SDRCODEG">Sidrune AI</a></strong>
-    </td>
-    <td>感谢 Sidrune AI 对本项目的赞助！Sidrune AI 通过一个 API 接入 GPT、Claude 等主流 AI 模型。新用户通过<a href="https://fluxionai.space/register?source=github&campaign=github-sidrune-codeg&promo=SDRCODEG">我们的专属链接</a>注册时使用优惠码 <code>SDRCODEG</code>，即送 3 美元 API 额度。</td>
-  </tr>
-  <tr>
-    <td align="center" width="220">
-      <a href="https://beeapi.ai/signup?aff=HIAB5JCVRNNA" target="_blank"><img src="../images/beeapi.jpg" alt="BeeAPI" width="200" /></a><br/>
-      <strong><a href="https://beeapi.ai/signup?aff=HIAB5JCVRNNA">BeeAPI</a></strong>
-    </td>
-    <td>感谢 <a href="https://beeapi.ai/signup?aff=HIAB5JCVRNNA">BeeAPI</a> 对本项目的赞助！BeeAPI 是专业的多模型 AI API 中转与聚合平台，汇集多家服务商及多种主流 AI 模型，支持多商家比价、多分组智能路由、统一 API 接入与计费，帮助用户更灵活、稳定、低成本地调用 AI 服务。</td>
-  </tr>
-</table>
-
-> 想成为 Codeg 赞助商？[欢迎通过邮件与我们联系。](mailto:itpkcn@gmail.com)
 
 ## ✨ 功能特性
 
@@ -237,7 +184,7 @@
 
 ### 命令行与 CI
 
-`codeg-cli` 将脚本与 CI 接入正在运行的 Codeg，输出智能体回复或 JSON 事件。
+`codeg-cli` 将脚本与 CI 接入正在运行的 YoYoCode，输出智能体回复或 JSON 事件。
 
 [文档 →](https://docs.codeg.app/zh/guide/command-line)
 
@@ -269,11 +216,11 @@ git diff | codeg-cli -a codex \
 - **[外观自定义](https://docs.codeg.app/zh/reference/settings/appearance)** — 十二套主题都能逐个色彩 token 重新调色，还有壁纸、圆角、聊天区域宽度、自定义 CSS 与桌面宠物——界面支持十种语言
 - **[备份与同步](https://docs.codeg.app/zh/reference/settings/system#backup-restore)** — 可加密的备份，以及通过文件或你自己的 WebDAV 服务器在多台机器之间同步配置
 - **[URL Scheme](../../docs/url-scheme.md)** — 用 `codeg://session/<id>` 从其它应用直接打开一个会话（桌面端）
-- **还有更多** — 几乎每个版本都有新东西；完整清单见 [发布说明](https://github.com/spacering-net/codeg/releases)
+- **还有更多** — 几乎每个版本都有新东西；完整清单见 [发布说明](https://github.com/ijry/codeg-plus/releases)
 
 ## 🤖 支持的智能体
 
-Codeg 通过 [Agent Client Protocol](https://agentclientprotocol.com) 与每个智能体对话，所以它们拿到的都是同一套结构化界面。内置二十个，其中大部分 Codeg 都能替你安装、锁定版本并更新：
+YoYoCode 通过 [Agent Client Protocol](https://agentclientprotocol.com) 与每个智能体对话，所以它们拿到的都是同一套结构化界面。内置二十个，其中大部分 YoYoCode 都能替你安装、锁定版本并更新：
 
 <p>
   <a href="https://www.anthropic.com/claude-code"><kbd><img src="../images/agents/claude-code.svg" alt="" width="16" valign="middle" /> Claude Code</kbd></a> &nbsp;
@@ -299,30 +246,30 @@ Codeg 通过 [Agent Client Protocol](https://agentclientprotocol.com) 与每个�
   <a href="https://docs.codeg.app/zh/guide/custom-agents"><kbd>+ 任意 ACP 智能体</kbd></a>
 </p>
 
-名单之外的呢？从公开的 ACP 注册表里挑一个，或者粘贴它的 distribution JSON——Codeg 会安装它、预检它能否启动，然后像对待内置智能体一样对待它。各自的运行环境要求以及会话在磁盘上的存放位置，见 [支持的智能体](https://docs.codeg.app/zh/guide/supported-agents)。
+名单之外的呢？从公开的 ACP 注册表里挑一个，或者粘贴它的 distribution JSON——YoYoCode 会安装它、预检它能否启动，然后像对待内置智能体一样对待它。各自的运行环境要求以及会话在磁盘上的存放位置，见 [支持的智能体](https://docs.codeg.app/zh/guide/supported-agents)。
 
 ## 📦 安装
 
-**桌面端** — macOS、Windows 与 Linux 的安装包都在 [Releases](https://github.com/spacering-net/codeg/releases/latest)，安装步骤见 [安装](https://docs.codeg.app/zh/getting-started/installation)。
+**桌面端** — macOS、Windows 与 Linux 的安装包都在 [Releases](https://github.com/ijry/codeg-plus/releases/latest)，安装步骤见 [安装](https://docs.codeg.app/zh/getting-started/installation)。
 
-**服务器** — 无界面运行 Codeg，用任意浏览器访问。Linux 或 macOS：
+**服务器** — 无界面运行 YoYoCode，用任意浏览器访问。Linux 或 macOS：
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/spacering-net/codeg/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/ijry/codeg-plus/main/install.sh | bash
 CODEG_STATIC_DIR=/usr/local/share/codeg/web codeg-server
 ```
 
 Windows（PowerShell）：
 
 ```powershell
-irm https://raw.githubusercontent.com/spacering-net/codeg/main/install.ps1 | iex
+irm https://raw.githubusercontent.com/ijry/codeg-plus/main/install.ps1 | iex
 $env:CODEG_STATIC_DIR="$env:LOCALAPPDATA\codeg-server\web"; codeg-server
 ```
 
 **Docker** — 同一个服务器，装进一个容器：
 
 ```bash
-docker run -d -p 3080:3080 -v codeg-data:/data ghcr.io/spacering-net/codeg:latest
+docker run -d -p 3080:3080 -v codeg-data:/data ghcr.io/ijry/codeg-plus:latest
 ```
 
 无论哪种方式，都在浏览器里打开 `http://<host>:3080`，输入服务器启动时打印的访问令牌（容器用 `docker logs` 查看）；也可以用 `CODEG_TOKEN` 自己指定。
@@ -340,37 +287,37 @@ Compose、预编译二进制、源码构建与就地升级见 [部署](https://d
     <img src="../images/weixin-light.jpg" alt="WeChat" width="200" />
   </picture>
 
-- **问题反馈** — 遇到 bug，或者缺了什么功能？[提交 issue](https://github.com/spacering-net/codeg/issues)。
+- **问题反馈** — 遇到 bug，或者缺了什么功能？[提交 issue](https://github.com/ijry/codeg-plus/issues)。
 - **隐私** — 默认本地优先：解析、存储与项目操作都在你的机器上完成，Web 模式与服务器模式均使用令牌认证。详见 [隐私与安全](https://docs.codeg.app/zh/reference/privacy)。
 - **LinuxDO** — 感谢 [LinuxDO](https://linux.do) 社区的支持。
-- **支持我们** — [给仓库点个 Star](https://github.com/spacering-net/codeg)，关注后续进展。
+- **支持我们** — [给仓库点个 Star](https://github.com/ijry/codeg-plus)，关注后续进展。
 
 ## 🤝 参与贡献
 
-欢迎提交 issue 与 pull request。想自己构建 Codeg，可以从 [开发](https://docs.codeg.app/zh/reference/development) 与 [架构](https://docs.codeg.app/zh/reference/architecture) 开始。
+欢迎提交 issue 与 pull request。想自己构建 YoYoCode，可以从 [开发](https://docs.codeg.app/zh/reference/development) 与 [架构](https://docs.codeg.app/zh/reference/architecture) 开始。
 
-<a href="https://github.com/spacering-net/codeg/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=spacering-net/codeg" alt="Codeg 贡献者" />
+<a href="https://github.com/ijry/codeg-plus/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=ijry/codeg-plus" alt="YoYoCode 贡献者" />
 </a>
 
 ## ⭐ Star 历史
 
-<a href="https://www.star-history.com/?repos=spacering-net%2Fcodeg&type=date&releases=&legend=bottom-right">
+<a href="https://www.star-history.com/?repos=ijry%2Fcodeg-plus&type=date&releases=&legend=bottom-right">
  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=spacering-net/codeg&type=date&theme=dark&legend=bottom-right" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=spacering-net/codeg&type=date&legend=bottom-right" />
-   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=spacering-net/codeg&type=date&legend=bottom-right" />
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=ijry/codeg-plus&type=date&theme=dark&legend=bottom-right" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=ijry/codeg-plus&type=date&legend=bottom-right" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=ijry/codeg-plus&type=date&legend=bottom-right" />
  </picture>
 </a>
 
 ## 🙏 鸣谢
 
-- [Agent Client Protocol](https://agentclientprotocol.com)：Codeg 得以连接所有受支持智能体的基础
-- [Superpowers](https://github.com/obra/superpowers)：为 Codeg 的专家技能模块提供支持
-- [OfficeCLI](https://github.com/iOfficeAI/OfficeCLI)：为 Codeg 的 Office 文档工作流提供支持
-- [scientific-agent-skills](https://github.com/K-Dense-AI/scientific-agent-skills)：为 Codeg 的科学研究技能提供支持（MIT 许可的子集）
-- [json-render](https://github.com/vercel-labs/json-render)：为 Codeg 的界面渲染（卡片、表格与图表）提供支持
-- [cua-driver](https://github.com/trycua/cua)：为 Codeg 的电脑操作提供支持
+- [Agent Client Protocol](https://agentclientprotocol.com)：YoYoCode 得以连接所有受支持智能体的基础
+- [Superpowers](https://github.com/obra/superpowers)：为 YoYoCode 的专家技能模块提供支持
+- [OfficeCLI](https://github.com/iOfficeAI/OfficeCLI)：为 YoYoCode 的 Office 文档工作流提供支持
+- [scientific-agent-skills](https://github.com/K-Dense-AI/scientific-agent-skills)：为 YoYoCode 的科学研究技能提供支持（MIT 许可的子集）
+- [json-render](https://github.com/vercel-labs/json-render)：为 YoYoCode 的界面渲染（卡片、表格与图表）提供支持
+- [cua-driver](https://github.com/trycua/cua)：为 YoYoCode 的电脑操作提供支持
 
 ## 📜 许可证
 
