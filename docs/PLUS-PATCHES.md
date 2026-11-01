@@ -12,7 +12,7 @@ PLUS 指本仓库相对上游 [spacering-net/codeg](https://github.com/spacering
   commit 落后上游较多，也可按需改走 rebase）
 - 同步一条命令：`node scripts/sync-upstream.mjs`（fetch → merge → 冲突指引）
 - `rerere.enabled = true`：相同冲突自动复用历史解法
-- `remote.pushDefault = origin`：fetch/pull 面向上游，push 面向 fork（ijry/codeg-plus）
+- `remote.pushDefault = origin`：fetch/pull 面向上游，push 面向 fork（ijry/YoYoCode）
 
 ### 方案取舍
 
@@ -38,7 +38,7 @@ PLUS 指本仓库相对上游 [spacering-net/codeg](https://github.com/spacering
 | `c937df5f7` | 上游同步机制 + 本文档 | `.gitignore`、`docs/`、`scripts/` | 永不 | 基础设施，预期不冲突 |
 | （身份注入 commit） | PLUS 产品身份构建期注入 | 仅新增 `scripts/` 文件 | 永不 —— fork 存在就需要 | 见下文 |
 | 本 commit | CI 发布流水线接入身份注入 | `.github/workflows/release.yml`（上游文件，上游改动时需手动合并，低频） | 永不 —— fork 发布就需要 | 见下文「CI 发布」 |
-| （品牌 commit） | 品牌 → YoYoCode：logo / 显示名 / README | `public/icon*.svg`、`src-tauri/icons/`、`src/app/favicon.ico`、`README.md`、`docs/readme/`×9 | 永不 —— fork 品牌就是需要 | 赞助段已删；显示名 YoYoCode，仓库 slug 仍为 `ijry/codeg-plus`（YoYoCode 名下已有同名 Go 项目）；上游动这些文件时需手动合并 |
+| （品牌 commit） | 品牌 → YoYoCode：logo / 显示名 / README | `public/icon*.svg`、`src-tauri/icons/`、`src/app/favicon.ico`、`README.md`、`docs/readme/`×9 | 永不 —— fork 品牌就是需要 | 赞助段已删；显示名与仓库 slug 统一为 YoYoCode（原 Go 项目让出名字后改名 GoCode）；上游动这些文件时需手动合并 |
 
 ### CI 发布
 
@@ -48,7 +48,7 @@ PLUS 指本仓库相对上游 [spacering-net/codeg](https://github.com/spacering
   的 `version`（safe 模式下与上游一致）。
 - **产物**：Windows NSIS 安装包 + Linux deb/appimage + macOS app（ad-hoc）+
   server 二进制 + updater 工件与 `latest.json`（PLUS 私钥签名）+
-  `ghcr.io/ijry/codeg-plus:<version>` 镜像。不推 Docker Hub（无 secret）。
+  `ghcr.io/ijry/YoYoCode:<version>` 镜像。不推 Docker Hub（无 secret）。
 - **macOS 走 ad-hoc**：无 Developer ID 证书 —— 上游的信任锚编译 / 证书导入 /
   helper 重签 / hardened-runtime 校验步骤以 `if: false` 门禁（原文保留，有证书
   后恢复），helper 由 prepare-sidecars 以 `codesign --sign -` 密封并以
@@ -89,7 +89,7 @@ Tauri 的 `app_data_dir()` 直接从 `identifier` 推导，换掉它就等于换
 官方版读不了（`backup/core.rs` 的 `evaluate_compat` 会因未知 migration 拒绝）。
 沿用上游公钥也不行 —— 我们没有对应私钥，签不出能通过验证的更新包。
 
-现在源指向 `ijry/codeg-plus` 的 release（`latest.json`），公钥换成 PLUS 自己的
+现在源指向 `ijry/YoYoCode` 的 release（`latest.json`），公钥换成 PLUS 自己的
 minisign 密钥对：
 
 - 私钥：`D:\Repos\xyito\config\codeg-plus\codeg-plus.key`（base64 单行，口令为空），

@@ -3,10 +3,10 @@
 </h1>
 
 <p align="center">
-  <a href="https://github.com/ijry/codeg-plus"><img src="https://img.shields.io/github/stars/ijry/codeg-plus?style=flat&color=e91e63" alt="GitHub stars" /></a>
-  <a href="https://github.com/ijry/codeg-plus/releases/latest"><img src="https://img.shields.io/github/v/release/ijry/codeg-plus?style=flat&color=e91e63" alt="Latest release" /></a>
-  <a href="https://github.com/ijry/codeg-plus/releases"><img src="https://img.shields.io/github/downloads/ijry/codeg-plus/total?style=flat&color=e91e63" alt="Total downloads" /></a>
-  <a href="../../LICENSE"><img src="https://img.shields.io/github/license/ijry/codeg-plus?style=flat&color=e91e63" alt="License" /></a>
+  <a href="https://github.com/ijry/YoYoCode"><img src="https://img.shields.io/github/stars/ijry/YoYoCode?style=flat&color=e91e63" alt="GitHub stars" /></a>
+  <a href="https://github.com/ijry/YoYoCode/releases/latest"><img src="https://img.shields.io/github/v/release/ijry/YoYoCode?style=flat&color=e91e63" alt="Latest release" /></a>
+  <a href="https://github.com/ijry/YoYoCode/releases"><img src="https://img.shields.io/github/downloads/ijry/YoYoCode/total?style=flat&color=e91e63" alt="Total downloads" /></a>
+  <a href="../../LICENSE"><img src="https://img.shields.io/github/license/ijry/YoYoCode?style=flat&color=e91e63" alt="License" /></a>
   <a href="https://docs.codeg.app"><img src="https://img.shields.io/badge/docs-docs.codeg.app-3451b2?style=flat" alt="Documentation" /></a>
   <a href="https://docs.codeg.app/zh/getting-started/installation"><img src="https://img.shields.io/badge/macOS%20%7C%20Windows%20%7C%20Linux%20%7C%20Docker%20%7C%20iOS%20%7C%20Android-03a9f4?style=flat" alt="Platforms: macOS, Windows, Linux, Docker, iOS, Android" /></a>
 </p>
@@ -20,7 +20,7 @@
   把所有 AI 编码智能体收进同一个地方 —— 并让它们协同工作。
 </p>
 
-<h3 align="center"><a href="https://github.com/ijry/codeg-plus/releases/latest"><ins>下载 YoYoCode</ins></a> · <a href="https://docs.codeg.app/zh"><ins>使用文档</ins></a></h3>
+<h3 align="center"><a href="https://github.com/ijry/YoYoCode/releases/latest"><ins>下载 YoYoCode</ins></a> · <a href="https://docs.codeg.app/zh"><ins>使用文档</ins></a></h3>
 
 <p align="center">
   <picture>
@@ -216,7 +216,7 @@ git diff | codeg-cli -a codex \
 - **[外观自定义](https://docs.codeg.app/zh/reference/settings/appearance)** — 十二套主题都能逐个色彩 token 重新调色，还有壁纸、圆角、聊天区域宽度、自定义 CSS 与桌面宠物——界面支持十种语言
 - **[备份与同步](https://docs.codeg.app/zh/reference/settings/system#backup-restore)** — 可加密的备份，以及通过文件或你自己的 WebDAV 服务器在多台机器之间同步配置
 - **[URL Scheme](../../docs/url-scheme.md)** — 用 `codeg://session/<id>` 从其它应用直接打开一个会话（桌面端）
-- **还有更多** — 几乎每个版本都有新东西；完整清单见 [发布说明](https://github.com/ijry/codeg-plus/releases)
+- **还有更多** — 几乎每个版本都有新东西；完整清单见 [发布说明](https://github.com/ijry/YoYoCode/releases)
 
 ## 🤖 支持的智能体
 
@@ -250,26 +250,26 @@ YoYoCode 通过 [Agent Client Protocol](https://agentclientprotocol.com) 与每�
 
 ## 📦 安装
 
-**桌面端** — macOS、Windows 与 Linux 的安装包都在 [Releases](https://github.com/ijry/codeg-plus/releases/latest)，安装步骤见 [安装](https://docs.codeg.app/zh/getting-started/installation)。
+**桌面端** — macOS、Windows 与 Linux 的安装包都在 [Releases](https://github.com/ijry/YoYoCode/releases/latest)，安装步骤见 [安装](https://docs.codeg.app/zh/getting-started/installation)。
 
 **服务器** — 无界面运行 YoYoCode，用任意浏览器访问。Linux 或 macOS：
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/ijry/codeg-plus/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/ijry/YoYoCode/main/install.sh | bash
 CODEG_STATIC_DIR=/usr/local/share/codeg/web codeg-server
 ```
 
 Windows（PowerShell）：
 
 ```powershell
-irm https://raw.githubusercontent.com/ijry/codeg-plus/main/install.ps1 | iex
+irm https://raw.githubusercontent.com/ijry/YoYoCode/main/install.ps1 | iex
 $env:CODEG_STATIC_DIR="$env:LOCALAPPDATA\codeg-server\web"; codeg-server
 ```
 
 **Docker** — 同一个服务器，装进一个容器：
 
 ```bash
-docker run -d -p 3080:3080 -v codeg-data:/data ghcr.io/ijry/codeg-plus:latest
+docker run -d -p 3080:3080 -v codeg-data:/data ghcr.io/ijry/YoYoCode:latest
 ```
 
 无论哪种方式，都在浏览器里打开 `http://<host>:3080`，输入服务器启动时打印的访问令牌（容器用 `docker logs` 查看）；也可以用 `CODEG_TOKEN` 自己指定。
@@ -287,26 +287,26 @@ Compose、预编译二进制、源码构建与就地升级见 [部署](https://d
     <img src="../images/weixin-light.jpg" alt="WeChat" width="200" />
   </picture>
 
-- **问题反馈** — 遇到 bug，或者缺了什么功能？[提交 issue](https://github.com/ijry/codeg-plus/issues)。
+- **问题反馈** — 遇到 bug，或者缺了什么功能？[提交 issue](https://github.com/ijry/YoYoCode/issues)。
 - **隐私** — 默认本地优先：解析、存储与项目操作都在你的机器上完成，Web 模式与服务器模式均使用令牌认证。详见 [隐私与安全](https://docs.codeg.app/zh/reference/privacy)。
 - **LinuxDO** — 感谢 [LinuxDO](https://linux.do) 社区的支持。
-- **支持我们** — [给仓库点个 Star](https://github.com/ijry/codeg-plus)，关注后续进展。
+- **支持我们** — [给仓库点个 Star](https://github.com/ijry/YoYoCode)，关注后续进展。
 
 ## 🤝 参与贡献
 
 欢迎提交 issue 与 pull request。想自己构建 YoYoCode，可以从 [开发](https://docs.codeg.app/zh/reference/development) 与 [架构](https://docs.codeg.app/zh/reference/architecture) 开始。
 
-<a href="https://github.com/ijry/codeg-plus/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=ijry/codeg-plus" alt="YoYoCode 贡献者" />
+<a href="https://github.com/ijry/YoYoCode/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=ijry/YoYoCode" alt="YoYoCode 贡献者" />
 </a>
 
 ## ⭐ Star 历史
 
-<a href="https://www.star-history.com/?repos=ijry%2Fcodeg-plus&type=date&releases=&legend=bottom-right">
+<a href="https://www.star-history.com/?repos=ijry%2FYoYoCode&type=date&releases=&legend=bottom-right">
  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=ijry/codeg-plus&type=date&theme=dark&legend=bottom-right" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=ijry/codeg-plus&type=date&legend=bottom-right" />
-   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=ijry/codeg-plus&type=date&legend=bottom-right" />
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=ijry/YoYoCode&type=date&theme=dark&legend=bottom-right" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=ijry/YoYoCode&type=date&legend=bottom-right" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=ijry/YoYoCode&type=date&legend=bottom-right" />
  </picture>
 </a>
 

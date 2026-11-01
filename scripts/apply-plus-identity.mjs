@@ -33,11 +33,11 @@ const PLUS_PRODUCT_NAME = "YoYoCode"
  * `pubkey` 是 PLUS 自己的 minisign 公钥（私钥在
  * ~/Repos/xyito/config/codeg-plus/codeg-plus.key，口令为空，同时以
  * TAURI_SIGNING_PRIVATE_KEY / TAURI_SIGNING_PRIVATE_KEY_PASSWORD 两个 secret
- * 配在 ijry/codeg-plus）。更新包由 release.yml 用它签名，客户端用这把公钥
+ * 配在 ijry/YoYoCode）。更新包由 release.yml 用它签名，客户端用这把公钥
  * 验签 —— 私钥丢了 updater 就废了，换 key 必须同步改这里并重新发版。
  */
 const PLUS_UPDATER_ENDPOINTS = [
-  "https://github.com/ijry/codeg-plus/releases/latest/download/latest.json",
+  "https://github.com/ijry/YoYoCode/releases/latest/download/latest.json",
 ]
 const PLUS_UPDATER_PUBKEY =
   "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEY5OTQ5NzFCOUM0RjA1NjIKUldSaUJVK2NHNWVVK1RSVnNpK2Q4am0zS1B3cnR1Sy91Mzd4UVl3OTJzTzhlSVM0VElaSk0wL04K"

@@ -3,10 +3,10 @@
 </h1>
 
 <p align="center">
-  <a href="https://github.com/ijry/codeg-plus"><img src="https://img.shields.io/github/stars/ijry/codeg-plus?style=flat&color=e91e63" alt="GitHub stars" /></a>
-  <a href="https://github.com/ijry/codeg-plus/releases/latest"><img src="https://img.shields.io/github/v/release/ijry/codeg-plus?style=flat&color=e91e63" alt="Latest release" /></a>
-  <a href="https://github.com/ijry/codeg-plus/releases"><img src="https://img.shields.io/github/downloads/ijry/codeg-plus/total?style=flat&color=e91e63" alt="Total downloads" /></a>
-  <a href="../../LICENSE"><img src="https://img.shields.io/github/license/ijry/codeg-plus?style=flat&color=e91e63" alt="License" /></a>
+  <a href="https://github.com/ijry/YoYoCode"><img src="https://img.shields.io/github/stars/ijry/YoYoCode?style=flat&color=e91e63" alt="GitHub stars" /></a>
+  <a href="https://github.com/ijry/YoYoCode/releases/latest"><img src="https://img.shields.io/github/v/release/ijry/YoYoCode?style=flat&color=e91e63" alt="Latest release" /></a>
+  <a href="https://github.com/ijry/YoYoCode/releases"><img src="https://img.shields.io/github/downloads/ijry/YoYoCode/total?style=flat&color=e91e63" alt="Total downloads" /></a>
+  <a href="../../LICENSE"><img src="https://img.shields.io/github/license/ijry/YoYoCode?style=flat&color=e91e63" alt="License" /></a>
   <a href="https://docs.codeg.app"><img src="https://img.shields.io/badge/docs-docs.codeg.app-3451b2?style=flat" alt="Documentation" /></a>
   <a href="https://docs.codeg.app/getting-started/installation"><img src="https://img.shields.io/badge/macOS%20%7C%20Windows%20%7C%20Linux%20%7C%20Docker%20%7C%20iOS%20%7C%20Android-03a9f4?style=flat" alt="Platforms: macOS, Windows, Linux, Docker, iOS, Android" /></a>
 </p>
@@ -20,7 +20,7 @@
   Rode todos os agentes de IA para programação em um só lugar — e deixe que trabalhem juntos.
 </p>
 
-<h3 align="center"><a href="https://github.com/ijry/codeg-plus/releases/latest"><ins>Baixar o YoYoCode</ins></a> · <a href="https://docs.codeg.app"><ins>Documentação</ins></a></h3>
+<h3 align="center"><a href="https://github.com/ijry/YoYoCode/releases/latest"><ins>Baixar o YoYoCode</ins></a> · <a href="https://docs.codeg.app"><ins>Documentação</ins></a></h3>
 
 <p align="center">
   <picture>
@@ -216,7 +216,7 @@ git diff | codeg-cli -a codex \
 - **[Do seu jeito](https://docs.codeg.app/reference/settings/appearance)** — doze temas que você pode recolorir token a token, papéis de parede, raio dos cantos, largura do chat, CSS personalizado e um pet de desktop — em qualquer um dos dez idiomas da interface
 - **[Backup e sincronização](https://docs.codeg.app/reference/settings/system#backup-restore)** — backups criptografados e sincronização de configuração entre máquinas por meio de um arquivo ou do seu próprio servidor WebDAV
 - **[Esquema de URL](../../docs/url-scheme.md)** — `codeg://session/<id>` abre uma conversa a partir de outro aplicativo (desktop)
-- **E mais** — quase toda versão traz algo novo; as [notas de versão](https://github.com/ijry/codeg-plus/releases) são a lista completa
+- **E mais** — quase toda versão traz algo novo; as [notas de versão](https://github.com/ijry/YoYoCode/releases) são a lista completa
 
 ## 🤖 Agentes suportados
 
@@ -250,26 +250,26 @@ Não está na lista? Escolha qualquer agente no registro público do ACP ou cole
 
 ## 📦 Instalação
 
-**Desktop** — os instaladores para macOS, Windows e Linux estão em [Releases](https://github.com/ijry/codeg-plus/releases/latest); o passo a passo está em [Instalação](https://docs.codeg.app/getting-started/installation).
+**Desktop** — os instaladores para macOS, Windows e Linux estão em [Releases](https://github.com/ijry/YoYoCode/releases/latest); o passo a passo está em [Instalação](https://docs.codeg.app/getting-started/installation).
 
 **Servidor** — rode o YoYoCode sem interface e acesse de qualquer navegador. No Linux ou macOS:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/ijry/codeg-plus/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/ijry/YoYoCode/main/install.sh | bash
 CODEG_STATIC_DIR=/usr/local/share/codeg/web codeg-server
 ```
 
 No Windows, no PowerShell:
 
 ```powershell
-irm https://raw.githubusercontent.com/ijry/codeg-plus/main/install.ps1 | iex
+irm https://raw.githubusercontent.com/ijry/YoYoCode/main/install.ps1 | iex
 $env:CODEG_STATIC_DIR="$env:LOCALAPPDATA\codeg-server\web"; codeg-server
 ```
 
 **Docker** — o mesmo servidor, em um contêiner:
 
 ```bash
-docker run -d -p 3080:3080 -v codeg-data:/data ghcr.io/ijry/codeg-plus:latest
+docker run -d -p 3080:3080 -v codeg-data:/data ghcr.io/ijry/YoYoCode:latest
 ```
 
 Nos dois casos, abra `http://<host>:3080` no navegador e informe o token de acesso que o servidor exibe ao iniciar (no contêiner, veja com `docker logs`), ou defina `CODEG_TOKEN` para escolher o seu.
@@ -287,26 +287,26 @@ Compose, binários pré-compilados, builds a partir do código e atualizações 
     <img src="../images/weixin-light.jpg" alt="WeChat" width="200" />
   </picture>
 
-- **Issues** — encontrou um bug ou sentiu falta de um recurso? [Abra uma issue](https://github.com/ijry/codeg-plus/issues).
+- **Issues** — encontrou um bug ou sentiu falta de um recurso? [Abra uma issue](https://github.com/ijry/YoYoCode/issues).
 - **Privacidade** — local em primeiro lugar: análise, armazenamento e operações de projeto ficam na sua máquina, e os modos web e servidor são protegidos por autenticação baseada em token. Detalhes em [Privacidade e segurança](https://docs.codeg.app/reference/privacy).
 - **LinuxDO** — obrigado à comunidade [LinuxDO](https://linux.do) pelo apoio.
-- **Apoie o projeto** — [dê uma estrela ao repositório](https://github.com/ijry/codeg-plus) para acompanhar o desenvolvimento.
+- **Apoie o projeto** — [dê uma estrela ao repositório](https://github.com/ijry/YoYoCode) para acompanhar o desenvolvimento.
 
 ## 🤝 Como contribuir
 
 Issues e pull requests são bem-vindos. Para compilar o YoYoCode você mesmo, comece por [Desenvolvimento](https://docs.codeg.app/reference/development) e [Arquitetura](https://docs.codeg.app/reference/architecture).
 
-<a href="https://github.com/ijry/codeg-plus/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=ijry/codeg-plus" alt="Contribuidores do YoYoCode" />
+<a href="https://github.com/ijry/YoYoCode/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=ijry/YoYoCode" alt="Contribuidores do YoYoCode" />
 </a>
 
 ## ⭐ Histórico de estrelas
 
-<a href="https://www.star-history.com/?repos=ijry%2Fcodeg-plus&type=date&releases=&legend=bottom-right">
+<a href="https://www.star-history.com/?repos=ijry%2FYoYoCode&type=date&releases=&legend=bottom-right">
  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=ijry/codeg-plus&type=date&theme=dark&legend=bottom-right" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=ijry/codeg-plus&type=date&legend=bottom-right" />
-   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=ijry/codeg-plus&type=date&legend=bottom-right" />
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=ijry/YoYoCode&type=date&theme=dark&legend=bottom-right" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=ijry/YoYoCode&type=date&legend=bottom-right" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=ijry/YoYoCode&type=date&legend=bottom-right" />
  </picture>
 </a>
 
