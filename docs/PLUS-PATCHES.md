@@ -36,7 +36,21 @@ PLUS 指本仓库相对上游 [spacering-net/codeg](https://github.com/spacering
 | commit | 主题 | 冲突面 | 何时可删 | 说明 |
 | --- | --- | --- | --- | --- |
 | `c937df5f7` | 上游同步机制 + 本文档 | `.gitignore`、`docs/`、`scripts/` | 永不 | 基础设施，预期不冲突 |
-| 本 commit | PLUS 产品身份构建期注入 | 仅新增 `scripts/` 文件 | 永不 —— fork 存在就需要 | 见下文 |
+| （身份注入 commit） | PLUS 产品身份构建期注入 | 仅新增 `scripts/` 文件 | 永不 —— fork 存在就需要 | 见下文 |
+| 本 commit | CI 发布流水线接入身份注入 | `.github/workflows/release.yml`（上游文件，上游改动时需手动合并，低频） | 永不 —— fork 发布就需要 | 见下文「CI 发布」 |
+
+### CI 发布
+
+- **tag 规则（强制）**：`v<app version>-plus.N`，如 `v0.41.3-plus.1`。不带
+  `-plus.N` 后缀的 tag 会在 CI 直接失败 —— 那意味着产物要带着官方身份出仓库。
+  `-plus.N` 传给身份注入脚本；`-plus` 前缀部分必须精确等于 `tauri.conf.json`
+  的 `version`（safe 模式下与上游一致）。
+- **产物**：Windows NSIS 安装包 + Linux deb/appimage + server 二进制 +
+  `ghcr.io/ijry/codeg-plus:<version>` 镜像。不产 updater 工件（无 minisign
+  私钥）；不推 Docker Hub（无 secret）。
+- **macOS 暂缓**：矩阵项已注释，需要 APPLE_* 证书（computer-use 信任锚与
+  Developer ID 签名步骤缺 secret 时显式失败）。备好证书后按注释恢复两个
+  矩阵项即可。
 
 ## PLUS 产品身份（release-identity）
 

@@ -61,8 +61,12 @@ jobs:
         shell: bash
         run: |
           APP_VERSION=$(node -p "require('./src-tauri/tauri.conf.json').version")
-          if [[ "v$APP_VERSION" != "${GITHUB_REF_NAME}" ]]; then
-            echo "Tag ${GITHUB_REF_NAME} does not match app version v$APP_VERSION"
+          # PLUS：tag 必须是 v<app version>-plus.N。-plus.N 由 tag 和 release
+          # 标题承载（safe 模式下 tauri.conf.json 的 version 保持纯三段，Windows
+          # MSI 的 ProductVersion 不接受 prerelease 段），N 传给身份注入脚本。
+          # 后缀是强制的：没有它就意味着构建产物会带着官方身份出仓库。
+          if ! [[ "${GITHUB_REF_NAME}" =~ ^v${APP_VERSION}-plus\.[0-9]+$ ]]; then
+            echo "Tag ${GITHUB_REF_NAME} does not match app version v$APP_VERSION-plus.N"
             exit 1
           fi
 
@@ -76,7 +80,7 @@ jobs:
             const tag = context.ref.replace("refs/tags/", "");
             const { owner, repo } = context.repo;
             const prerelease = process.env.PRERELEASE === "true";
-            const releaseName = `codeg ${tag}`;
+            const releaseName = `Codeg Plus ${tag}`;
             const { data: tagRef } = await github.rest.git.getRef({
               owner,
               repo,
@@ -172,12 +176,15 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - name: "macOS x64"
-            runner: "macos-latest"
-            target: "x86_64-apple-darwin"
-          - name: "macOS arm64"
-            runner: "macos-latest"
-            target: "aarch64-apple-darwin"
+          # macOS 暂缓：仓库尚未配置 APPLE_* 签名 secret，上游的 computer-use
+          # 信任锚与证书导入步骤在缺 secret 时显式失败。备好 Developer ID
+          # 证书后把这两个矩阵项加回来。
+          # - name: "macOS x64"
+          #   runner: "macos-latest"
+          #   target: "x86_64-apple-darwin"
+          # - name: "macOS arm64"
+          #   runner: "macos-latest"
+          #   target: "aarch64-apple-darwin"
           - name: "Linux x64"
             runner: "ubuntu-22.04"
             target: "x86_64-unknown-linux-gnu"
@@ -299,6 +306,19 @@ jobs:
 
       - name: Install frontend dependencies
         run: pnpm install --frozen-lockfile
+
+      # 构建期身份注入：productName / identifier / updater 都在本步改写，
+      # git 历史里这些字段与上游逐位相同（见 docs/PLUS-PATCHES.md）。必须在
+      # 任何 cargo build 之前 —— identifier 由 build script 编进二进制。
+      - name: Apply PLUS identity
+        shell: bash
+        run: |
+          if [[ "${GITHUB_REF_NAME}" =~ -plus\.([0-9]+)$ ]]; then
+            node scripts/apply-plus-identity.mjs --iteration "${BASH_REMATCH[1]}"
+          else
+            echo "FATAL: PLUS release tag must end in -plus.N" >&2
+            exit 1
+          fi
 
       # Computer use on macOS: codeg and codeg-computer-helper each check the
       # other's code signature at run time, against a designated requirement
@@ -537,10 +557,11 @@ jobs:
           prerelease: ${{ needs.create-draft-release.outputs.prerelease }}
           tauriScript: pnpm tauri
           # Skip MSI bundling on Windows: tauri-apps/tauri#14681 — light.exe
-          # fails when externalBin is configured. NSIS installer + updater
-          # artifacts cover the same distribution channel.
-          args: --target ${{ matrix.target }} --bundles nsis,updater
-          includeUpdaterJson: true
+          # fails when externalBin is configured. NSIS installer covers the
+          # same distribution channel. PLUS：不产 updater 产物 —— 没有 minisign
+          # 私钥，签不出来；createUpdaterArtifacts 已由身份注入脚本关掉。
+          args: --target ${{ matrix.target }} --bundles nsis
+          includeUpdaterJson: false
           retryAttempts: 2
 
       - name: Build and upload to draft release (Linux x64)
@@ -564,7 +585,7 @@ jobs:
           # Every Linux bundle (deb, rpm, AppImage), less the .rpm for a
           # release candidate: see the arm64 step.
           args: --target ${{ matrix.target }}${{ contains(github.ref_name, '-') && ' --bundles deb,appimage' || '' }}
-          includeUpdaterJson: true
+          includeUpdaterJson: false
           retryAttempts: 2
 
       - name: Build, sign, and upload to draft release (macOS)
@@ -737,14 +758,7 @@ jobs:
             runner: "ubuntu-22.04"
             target: "aarch64-unknown-linux-gnu"
             artifact: "codeg-server-linux-arm64"
-          - name: "macOS x64"
-            runner: "macos-latest"
-            target: "x86_64-apple-darwin"
-            artifact: "codeg-server-darwin-x64"
-          - name: "macOS arm64"
-            runner: "macos-latest"
-            target: "aarch64-apple-darwin"
-            artifact: "codeg-server-darwin-arm64"
+          # macOS 项随 build-tauri 一并暂缓（见其矩阵注释）。
           - name: "Windows x64"
             runner: "windows-2022"
             target: "x86_64-pc-windows-msvc"
@@ -811,6 +825,18 @@ jobs:
         with:
           node-version: 24
           cache: "pnpm"
+
+      # 与 build-tauri 相同的身份注入（server 的版本接口读 package.json 的
+      # version / 身份字段时保持一致）。见 build-tauri 的同名步骤注释。
+      - name: Apply PLUS identity
+        shell: bash
+        run: |
+          if [[ "${GITHUB_REF_NAME}" =~ -plus\.([0-9]+)$ ]]; then
+            node scripts/apply-plus-identity.mjs --iteration "${BASH_REMATCH[1]}"
+          else
+            echo "FATAL: PLUS release tag must end in -plus.N" >&2
+            exit 1
+          fi
 
       - name: Build frontend
         env:
@@ -1212,11 +1238,13 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      # PLUS：Docker Hub 推送暂缓 —— 仓库未配置 DOCKERHUB_USERNAME/TOKEN，
+      # 只发 ghcr.io（GITHUB_TOKEN 即可）。
+      # - name: Log in to Docker Hub
+      #   uses: docker/login-action@v3
+      #   with:
+      #     username: ${{ secrets.DOCKERHUB_USERNAME }}
+      #     password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       # The image runs its codeg-cli before it is pushed: an amd64 build loaded
       # into the runner's daemon, `codeg-cli --version` inside it.
@@ -1249,9 +1277,7 @@ jobs:
             org.opencontainers.image.source=https://github.com/${{ github.repository }}
           tags: |
             ghcr.io/${{ github.repository }}:${{ steps.version.outputs.version }}
-            ${{ secrets.DOCKERHUB_USERNAME }}/codeg:${{ steps.version.outputs.version }}
             ${{ needs.create-draft-release.outputs.prerelease != 'true' && format('ghcr.io/{0}:latest', github.repository) || '' }}
-            ${{ needs.create-draft-release.outputs.prerelease != 'true' && format('{0}/codeg:latest', secrets.DOCKERHUB_USERNAME) || '' }}
 
   publish-release:
     needs:
